@@ -1,6 +1,28 @@
 :root {
+  --color-primary: #de87f1;
+  --color-secondary: #9397fb;
+  --color-background: #0b0722;
+  --color-text: #f2d9f9;
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  color: var(--color-text);
+  background-color: var(--color-background);
+}
+
+a {
+  color: var(--color-text);
+}
+
+a:hover {
+  color: var(--color-primary);
+}
+
+ul {
+  list-style: none;
 }

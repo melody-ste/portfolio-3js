@@ -1,0 +1,8 @@
+/*      FOOTER       */
+
+footer ul {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 1rem;
+}
