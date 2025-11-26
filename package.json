@@ -11,8 +11,11 @@
   },
   "dependencies": {
     "@iconify/react": "^6.0.2",
+    "@react-three/drei": "~10.0.8",
+    "@react-three/fiber": "~9.1.4",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "three": "~0.174.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
