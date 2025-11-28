@@ -23,7 +23,7 @@ void main() {
 
     pos.y *= instanceHeight;
 
-    float bendAmount = sin(iTime * 0.002 + instanceBend) * 0.15;
+    float bendAmount = sin(iTime * 0.0005 + instanceBend) * 0.15;
     pos.x += pos.y * bendAmount;
 
     pos = rotateY(instanceYaw) * pos;
