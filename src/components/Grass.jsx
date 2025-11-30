@@ -6,8 +6,8 @@ import grassVertex from "../shaders/grass/vertex.glsl?raw";
 import grassFragment from "../shaders/grass/fragment.glsl?raw";
 
 export default function Grass() {
-  const bladeCount = 100000;
-  const planeRadius = 15;
+  const bladeCount = 150000;
+  const planeRadius = 40;
 
   // UNIFORMS
   const uniforms = useMemo(
