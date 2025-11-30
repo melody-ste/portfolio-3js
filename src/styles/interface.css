@@ -4,3 +4,17 @@
   left: 0;
   pointer-events: none;
 }
+
+.title {
+  margin-top: 2rem;
+  font-size: 8rem;
+}
+
+header {
+  margin: 5rem;
+}
+
+header h2 {
+  font-size: 2.5rem;
+  line-height: 0;
+}

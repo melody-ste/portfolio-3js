@@ -19,7 +19,7 @@ function App() {
       ] }>
         <Canvas
           camera={{
-          position: [0, 2, 12], // en face, centrée
+          position: [0, 2, 12],
           rotation: [0, 0, 0],
           fov: 45,
           near: 0.1,

@@ -10,9 +10,10 @@ export default function Interface()
 
     return (
         <div className="interface">
-
-          <h1 className="title">Mélody Stephan</h1>
-          <h2>Frontend Web Developer & 3D Generalist</h2>
+          <header>
+            <h1 className="title">Mélody Stephan</h1>
+            <h2>Frontend Web Developer & 3D Generalist</h2>
+          </header>
 
           <div className="controls">
             <div className="raw">

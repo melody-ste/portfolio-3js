@@ -4,6 +4,8 @@
   --color-background: #0b0722;
   --color-text: #f2d9f9;
 
+  --font-primary: 'Satoshi', sans-serif;
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -24,6 +26,7 @@ body,
 body {
   color: var(--color-text);
   background-color: var(--color-background);
+  font-family: var(--font-primary);
 }
 
 a {
