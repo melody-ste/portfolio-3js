@@ -3,10 +3,10 @@ export default function Navbar()
   return (
     <nav>
       <ul>
-        <li>Mélody Stephan</li>
-
+        <li>Explore</li>
+        <li>Demo</li>
+        <li>More about me</li>
       </ul>
-
     </nav>
   )
 }

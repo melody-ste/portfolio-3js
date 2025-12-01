@@ -1,4 +1,4 @@
-/*      FOOTER       */
+/*           FOOTER           */
 footer {
   position: fixed;
   bottom: 1rem;
@@ -7,6 +7,22 @@ footer {
 }
 
 footer ul {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 1rem;
+}
+
+/*           NAVBAR           */
+
+nav {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+nav ul {
+  list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
