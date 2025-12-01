@@ -5,7 +5,11 @@ import { useControls } from "leva";
 
 import Grass from "./Grass";
 
-const enviroMaterial = new THREE.MeshStandardMaterial({ color: 'limegreen' })
+const textureLoader = new THREE.TextureLoader();
+const baseColorTexture = textureLoader.load('/textures/enviro_BaseColor.png');
+baseColorTexture.flipY = false
+baseColorTexture.colorSpace = THREE.SRGBColorSpace
+const enviroMaterial = new THREE.MeshStandardMaterial({ map: baseColorTexture })
 
 export default function EnvScene()
 {
@@ -14,7 +18,6 @@ export default function EnvScene()
   // Leva panel
   const rocks1Ctrl = useControls("Rocks 1", {
     posX: { value: 20, min: -40, max: 40, step: 0.1 },
-    posY: { value: 0, min: -5, max: 5, step: 0.1 },
     posZ: { value: -3, min: -20, max: 20, step: 0.1 },
     rotY: { value: 0, min: 0, max: Math.PI * 2, step: 0.01 },
     scale: { value: 1.2, min: 0.1, max: 5, step: 0.1 },
@@ -22,7 +25,6 @@ export default function EnvScene()
 
   const rocks2Ctrl = useControls("Rocks 2", {
     posX: { value: -18.5, min: -40, max: 40, step: 0.1 },
-    posY: { value: 0, min: -5, max: 5, step: 0.1 },
     posZ: { value: -10, min: -40, max: 40, step: 0.1 },
     rotY: { value: 0, min: 0, max: Math.PI * 2, step: 0.01 },
     scale: { value: 1.2, min: 0.1, max: 5, step: 0.1 },
@@ -30,7 +32,6 @@ export default function EnvScene()
 
   const rocks3Ctrl = useControls("Rocks 3", {
     posX: { value: 7, min: -40, max: 40, step: 0.1 },
-    posY: { value: 0, min: -5, max: 5, step: 0.1 },
     posZ: { value: 0, min: -40, max: 40, step: 0.1 },
     rotY: { value: 0, min: 0, max: Math.PI * 2, step: 0.01 },
     scale: { value: 1.2, min: 0.1, max: 5, step: 0.1 },
@@ -38,7 +39,6 @@ export default function EnvScene()
 
   const signCtrl = useControls("Sign", {
     posX: { value: 6, min: -40, max: 40, step: 0.1 },
-    posY: { value: 0, min: -5, max: 5, step: 0.1 },
     posZ: { value: -18, min: -40, max: 40, step: 0.1 },
     rotY: { value: 0, min: 0, max: Math.PI * 2, step: 0.01 },
     scale: { value: 1, min: 0.1, max: 5, step: 0.1 },
@@ -46,28 +46,32 @@ export default function EnvScene()
 
   const mush1Ctrl = useControls("Mushrooms 1", {
     posX: { value: 20, min: -40, max: 40, step: 0.1 },
-    posY: { value: 0, min: -5, max: 5, step: 0.1 },
     posZ: { value: -3, min: -40, max: 40, step: 0.1 },
     rotY: { value: 0, min: 0, max: Math.PI * 2, step: 0.01 },
     scale: { value: 1, min: 0.1, max: 5, step: 0.1 },
   });
 
   const mush2Ctrl = useControls("Mushrooms 2", {
-    posX: { value: -18.5, min: -40, max: 40, step: 0.1 },
-    posY: { value: 0, min: -5, max: 5, step: 0.1 },
-    posZ: { value: -10, min: -40, max: 40, step: 0.1 },
+    posX: { value: 7, min: -40, max: 40, step: 0.1 },
+    posZ: { value: 0, min: -40, max: 40, step: 0.1 },
     rotY: { value: 0, min: 0, max: Math.PI * 2, step: 0.01 },
     scale: { value: 1, min: 0.1, max: 5, step: 0.1 },
   });
 
   const mush3Ctrl = useControls("Mushrooms 3", {
-    posX: { value: 7, min: -40, max: 40, step: 0.1 },
-    posY: { value: 0, min: -5, max: 5, step: 0.1 },
-    posZ: { value: 0, min: -40, max: 40, step: 0.1 },
+    posX: { value: -18.5, min: -40, max: 40, step: 0.1 },
+    posZ: { value: -10, min: -40, max: 40, step: 0.1 },
     rotY: { value: 0, min: 0, max: 0, step: 0.01 },
     scale: { value: 1, min: 0.1, max: 5, step: 0.1 },
   });
 
+  const { roughness } = useControls("Material", {
+    roughness: { value: 1, min: 0, max: 1, step: 0.01 },
+  });
+
+  useEffect(() => {
+    enviroMaterial.roughness = roughness;
+  }, [roughness]);
 
   useEffect(() => {
     if (!environment?.scene) return;
@@ -81,37 +85,37 @@ export default function EnvScene()
     const mush3 = environment.scene.getObjectByName("grp_mushrooms_03");
 
    if (rocks1) {
-      rocks1.position.set(rocks1Ctrl.posX, rocks1Ctrl.posY, rocks1Ctrl.posZ);
+      rocks1.position.set(rocks1Ctrl.posX, 0, rocks1Ctrl.posZ);
       rocks1.rotation.set(Math.PI / 2, rocks1Ctrl.rotY, 0);
       rocks1.scale.set(rocks1Ctrl.scale, rocks1Ctrl.scale, rocks1Ctrl.scale);
     }
     if (rocks2) {
-      rocks2.position.set(rocks2Ctrl.posX, rocks2Ctrl.posY, rocks2Ctrl.posZ);
+      rocks2.position.set(rocks2Ctrl.posX, 0, rocks2Ctrl.posZ);
       rocks2.rotation.set(Math.PI / 2, rocks2Ctrl.rotY, 0);
       rocks2.scale.set(rocks2Ctrl.scale, rocks2Ctrl.scale, rocks2Ctrl.scale);
     }
     if (rocks3) {
-      rocks3.position.set(rocks3Ctrl.posX, rocks3Ctrl.posY, rocks3Ctrl.posZ);
+      rocks3.position.set(rocks3Ctrl.posX, 0, rocks3Ctrl.posZ);
       rocks3.rotation.set(Math.PI / 2, rocks3Ctrl.rotY, 0);
       rocks3.scale.set(rocks3Ctrl.scale, rocks3Ctrl.scale, rocks3Ctrl.scale);
     }
     if (sign) {
-      sign.position.set(signCtrl.posX, signCtrl.posY, signCtrl.posZ);
+      sign.position.set(signCtrl.posX, 0, signCtrl.posZ);
       sign.rotation.set(Math.PI / 2, signCtrl.rotY, 0);
       sign.scale.set(signCtrl.scale, signCtrl.scale, signCtrl.scale);
     }
     if (mush1) {
-      mush1.position.set(mush1Ctrl.posX, mush1Ctrl.posY, mush1Ctrl.posZ);
+      mush1.position.set(mush1Ctrl.posX, 0, mush1Ctrl.posZ);
       mush1.rotation.set(Math.PI / 2, mush1Ctrl.rotY, 0);
       mush1.scale.set(mush1Ctrl.scale, mush1Ctrl.scale, mush1Ctrl.scale);
     }
     if (mush2) {
-      mush2.position.set(mush2Ctrl.posX, mush2Ctrl.posY, mush2Ctrl.posZ);
+      mush2.position.set(mush2Ctrl.posX, 0, mush2Ctrl.posZ);
       mush2.rotation.set(Math.PI / 2, mush2Ctrl.rotY, 0);
       mush2.scale.set(mush2Ctrl.scale, mush2Ctrl.scale, mush2Ctrl.scale);
     }
     if (mush3) {
-      mush3.position.set(mush3Ctrl.posX, mush3Ctrl.posY, mush3Ctrl.posZ);
+      mush3.position.set(mush3Ctrl.posX, 0, mush3Ctrl.posZ);
       mush3.rotation.set(Math.PI / 2, mush3Ctrl.rotY, 0);
       mush3.scale.set(mush3Ctrl.scale, mush3Ctrl.scale, mush3Ctrl.scale);
     }
