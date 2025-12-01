@@ -2,7 +2,7 @@ import * as THREE from "three"
 import { useFrame, useThree } from "@react-three/fiber"
 import { useKeyboardControls } from "@react-three/drei"
 import { useRef, useState } from "react"
-import Environment from './Environment.jsx';
+import EnvScene from './Environment.jsx';
 
 export default function Experience({ headerVisible, setHeaderVisible })
 {
@@ -42,6 +42,6 @@ export default function Experience({ headerVisible, setHeaderVisible })
   })
 
   return <>
-    <Environment />
+    <EnvScene />
   </>
 }
