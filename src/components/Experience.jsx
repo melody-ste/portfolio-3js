@@ -1,10 +1,10 @@
 import * as THREE from "three"
 import { useFrame, useThree } from "@react-three/fiber"
 import { useKeyboardControls } from "@react-three/drei"
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import Environment from './Environment.jsx';
 
-export default function Experience()
+export default function Experience({ headerVisible, setHeaderVisible })
 {
   const camera = useThree((state) => state.camera)
   const forward = useKeyboardControls((state) => state.forward)
@@ -26,7 +26,14 @@ export default function Experience()
     if (leftward) direction.x -= 1
     if (rightward) direction.x += 1
 
-    if (direction.length() > 0) {
+    const moving = direction.length() > 0
+
+    if (moving && headerVisible) {
+      setHeaderVisible(false)
+    }
+
+    if (moving) {
+      setHeaderVisible(false)
       direction.normalize()
       direction.applyEuler(camera.rotation)
       direction.multiplyScalar(speed * delta)
@@ -35,6 +42,6 @@ export default function Experience()
   })
 
   return <>
-     <Environment />
+    <Environment />
   </>
 }

@@ -1,12 +1,16 @@
 import './styles/App.css';
 import { Canvas } from '@react-three/fiber';
 import { KeyboardControls } from '@react-three/drei'
+import { useState } from "react"
+
 import Footer from './components/Footer';
 import Experience from './components/Experience.jsx'
 import Interface from './components/Interface.jsx'
 
 function App() {
- 
+
+  const [headerVisible, setHeaderVisible] = useState(true)
+
   return (
     <>
       <KeyboardControls 
@@ -25,10 +29,10 @@ function App() {
           near: 0.1,
           far: 200
         }}>
-          <Experience />
+          <Experience headerVisible={headerVisible} setHeaderVisible={setHeaderVisible} />
         </Canvas>
 
-        <Interface />
+        <Interface headerVisible={headerVisible} />
         <Footer />
       </KeyboardControls>
     </>
