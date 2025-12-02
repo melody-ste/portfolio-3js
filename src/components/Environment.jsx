@@ -10,11 +10,31 @@ const textureLoader = new THREE.TextureLoader();
 const enviroBaseColorTexture = textureLoader.load('/textures/enviro_BaseColor.png');
 enviroBaseColorTexture.flipY = false
 enviroBaseColorTexture.colorSpace = THREE.SRGBColorSpace
+
 const islandsBaseColorTexture = textureLoader.load('/textures/islands_BaseColor.png');
 islandsBaseColorTexture.flipY = false
+const islandsNormalTexture = textureLoader.load('/textures/islands_Normal.png');
+islandsNormalTexture.flipY = false;
 islandsBaseColorTexture.colorSpace = THREE.SRGBColorSpace
+
+const vinesBaseColorTexture = textureLoader.load('/textures/vines_BaseColor.png');
+vinesBaseColorTexture.flipY = false
+const vinesNormalTexture = textureLoader.load('/textures/vines_Normal.png');
+vinesNormalTexture.flipY = false;
+vinesBaseColorTexture.colorSpace = THREE.SRGBColorSpace
+
 const enviroMaterial = new THREE.MeshStandardMaterial({ map: enviroBaseColorTexture })
-const islandsMaterial = new THREE.MeshStandardMaterial({ map: islandsBaseColorTexture })
+const islandsMaterial = new THREE.MeshStandardMaterial({
+  map: islandsBaseColorTexture,
+  normalMap: islandsNormalTexture,
+  normalScale: new THREE.Vector2(0.4, 0.4)
+});
+
+const vinesMaterial = new THREE.MeshStandardMaterial({
+  map: vinesBaseColorTexture,
+  normalMap: vinesNormalTexture,
+  normalScale: new THREE.Vector2(0.4, 0.4)
+});
 
 export default function EnvScene()
 {
@@ -44,13 +64,26 @@ export default function EnvScene()
   useEffect(() => {
     if (!islands?.scene) return;
 
-    islands.scene.traverse((child) => {
+    islands.scene.traverse(child => {
       if (child.isMesh) {
-        child.material = islandsMaterial;
+        child.material.dispose();
+        child.material = islandsMaterial.clone();
         child.material.needsUpdate = true;
       }
     });
   }, [islands]);
+
+  useEffect(() => {
+    if (!vines?.scene) return;
+
+    vines.scene.traverse(child => {
+      if (child.isMesh) {
+        child.material.dispose();
+        child.material = vinesMaterial.clone();
+        child.material.needsUpdate = true;
+      }
+    });
+  }, [vines]);
 
   
   // console.log(islandsBaseColorTexture);
