@@ -4,6 +4,8 @@ import { Environment, useGLTF } from '@react-three/drei';
 import { useControls } from "leva";
 
 import Grass from "./Grass";
+import portalsVertex from "../shaders/portals/vertex.glsl?raw";
+import portalsFragment from "../shaders/portals/fragment.glsl?raw";
 
 //  -- TEXTURE --
 const textureLoader = new THREE.TextureLoader();
