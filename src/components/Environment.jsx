@@ -110,6 +110,6 @@ export default function EnvScene()
     <primitive object={ environment.scene }  scale={60}/>
     <primitive object={ islands.scene }  scale={60} />
     <primitive object={ vines.scene }  scale={60} />
-    <Grass islands={islands} scale={60} />
+    <Grass/>
   </>
 }

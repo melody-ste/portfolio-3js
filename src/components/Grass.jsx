@@ -1,21 +1,15 @@
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
-import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils.js";
-import { MeshSurfaceSampler } from "three/examples/jsm/math/MeshSurfaceSampler.js";
 import * as THREE from "three";
 
 import grassVertex from "../shaders/grass/vertex.glsl?raw";
 import grassFragment from "../shaders/grass/fragment.glsl?raw";
 
-export default function Grass({ islands, scale }) {
+export default function Grass() {
 
-  const bladeCount = 5000;
-
-  if (!islands?.nodes) {
-    console.warn("Grass: 'islands' prop non fourni ou vide !");
-    return null;
-  }
+  const bladeCount = 1500000;
+  const ground = useGLTF('/grass.glb');
 
   // UNIFORMS
   const uniforms = useMemo(
@@ -49,71 +43,56 @@ export default function Grass({ islands, scale }) {
     return geom;
   }, []);
 
-  // INSTANCE GEOMETRY
   const instancedGeometry = useMemo(() => {
-    const grassMeshes = [
-      islands.nodes.island_01_grass,
-      islands.nodes.island_02_grass,
-      islands.nodes.island_03_grass,
-    ].filter(Boolean);
+    if (!ground?.scene) return null;
 
-    if (grassMeshes.length === 0) return null;
+    const scaledScene = ground.scene.clone();
+    scaledScene.scale.set(60, 60, 60);
+    scaledScene.updateMatrixWorld(true);
 
-    // MERGE GEOMETRIES
-    const geometries = grassMeshes.map(m => m.geometry.clone());
-    const merged = BufferGeometryUtils.mergeGeometries(geometries);
-    merged.computeVertexNormals();
-    merged.computeBoundingBox();
-    merged.computeBoundingSphere();
+    const positionsArray = [];
 
-    // Créer un mesh temporaire pour le sampler
-    const tempMesh = new THREE.Mesh(merged);
-    tempMesh.applyMatrix4(
-      new THREE.Matrix4()
-        .compose(
-          islands.scene.position,
-          islands.scene.quaternion,
-          islands.scene.scale.clone().multiplyScalar(scale)
-        )
-    );
+    scaledScene.traverse((child) => {
+      if (child.isMesh && child.geometry && child.geometry.attributes.position) {
+        const posAttr = child.geometry.attributes.position;
 
-    // SAMPLER
-    const sampler = new MeshSurfaceSampler(tempMesh).build();
+        for (let i = 0; i < posAttr.count; i++) {
+          const tempPos = new THREE.Vector3().fromBufferAttribute(posAttr, i);
+          tempPos.applyMatrix4(child.matrixWorld);
+          positionsArray.push(tempPos.x, tempPos.y, tempPos.z);
+        }
+      }
+    });
 
-    // INSTANCED GEOMETRY
-    const instGeom = new THREE.InstancedBufferGeometry();
-    instGeom.index = baseGeometry.index;
-    instGeom.attributes.position = baseGeometry.attributes.position;
+    // limite à bladeCount et choisis aléatoirement
+    const instanceCount = Math.min(bladeCount, positionsArray.length / 3);
+    const offsets = new Float32Array(instanceCount * 3);
+    const heights = new Float32Array(instanceCount);
+    const yaws = new Float32Array(instanceCount);
+    const bends = new Float32Array(instanceCount);
 
-    const offsets = new Float32Array(bladeCount * 3);
-    const heights = new Float32Array(bladeCount);
-    const yaws = new Float32Array(bladeCount);
-    const bends = new Float32Array(bladeCount);
+    for (let i = 0; i < instanceCount; i++) {
+      const idx = Math.floor(Math.random() * (positionsArray.length / 3));
+      offsets[i * 3 + 0] = positionsArray[idx * 3 + 0];
+      offsets[i * 3 + 1] = positionsArray[idx * 3 + 1];
+      offsets[i * 3 + 2] = positionsArray[idx * 3 + 2];
 
-    const tempPos = new THREE.Vector3();
-    const tempNorm = new THREE.Vector3();
-
-    for (let i = 0; i < bladeCount; i++) {
-      sampler.sample(tempPos, tempNorm);
-
-      // On applique seulement le scale, PAS la matrixWorld
-      offsets[i * 3 + 0] = tempPos.x;
-      offsets[i * 3 + 1] = tempPos.y;
-      offsets[i * 3 + 2] = tempPos.z;
-
-      heights[i] = 0.8 + Math.random() * 0.6;
+      heights[i] = 0.5 + Math.random() * 0.6;
       yaws[i] = Math.random() * Math.PI * 2;
       bends[i] = Math.random() * Math.PI * 2;
     }
 
+    const instGeom = new THREE.InstancedBufferGeometry();
+    instGeom.index = baseGeometry.index;
+    instGeom.attributes.position = baseGeometry.attributes.position;
     instGeom.setAttribute("instanceOffset", new THREE.InstancedBufferAttribute(offsets, 3));
     instGeom.setAttribute("instanceHeight", new THREE.InstancedBufferAttribute(heights, 1));
     instGeom.setAttribute("instanceYaw", new THREE.InstancedBufferAttribute(yaws, 1));
     instGeom.setAttribute("instanceBend", new THREE.InstancedBufferAttribute(bends, 1));
-    instGeom.instanceCount = bladeCount;
+    instGeom.instanceCount = instanceCount;
 
     return instGeom;
-  }, [baseGeometry, islands, scale]);
+  }, [baseGeometry, ground]);
 
   // UPDATE TIME
   useFrame((state) => {
