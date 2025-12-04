@@ -117,7 +117,7 @@ export default function Grass() {
   if (!instancedGeometry) return null;
 
   return (
-    <mesh geometry={instancedGeometry}>
+    <mesh geometry={instancedGeometry} frustumCulled={false}>
       <shaderMaterial
         vertexShader={grassVertex}
         fragmentShader={grassFragment}

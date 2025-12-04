@@ -5,7 +5,7 @@ attribute float instanceBend;
 
 uniform float iTime;
 
-varying vec3 vColor;
+varying float vGrassHeight;
 
 // Rotate around Y
 mat3 rotateY(float a) {
@@ -21,16 +21,15 @@ mat3 rotateY(float a) {
 void main() {
     vec3 pos = position;
 
+    vGrassHeight = position.y / instanceHeight;
+
     pos.y *= instanceHeight;
 
     float bendAmount = sin(iTime * 0.0005 + instanceBend) * 0.15;
     pos.x += pos.y * bendAmount;
 
     pos = rotateY(instanceYaw) * pos;
-
     pos += instanceOffset;
-
-    vColor = vec3(pos.y / instanceHeight);
 
     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
 }
