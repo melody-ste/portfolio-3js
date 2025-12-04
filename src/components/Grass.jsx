@@ -1,13 +1,21 @@
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
+import { useGLTF } from "@react-three/drei";
+import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils.js";
+import { MeshSurfaceSampler } from "three/examples/jsm/math/MeshSurfaceSampler.js";
 import * as THREE from "three";
 
 import grassVertex from "../shaders/grass/vertex.glsl?raw";
 import grassFragment from "../shaders/grass/fragment.glsl?raw";
 
-export default function Grass() {
-  const bladeCount = 150000;
-  const planeRadius = 40;
+export default function Grass({ islands, scale }) {
+
+  const bladeCount = 5000;
+
+  if (!islands?.nodes) {
+    console.warn("Grass: 'islands' prop non fourni ou vide !");
+    return null;
+  }
 
   // UNIFORMS
   const uniforms = useMemo(
@@ -41,8 +49,38 @@ export default function Grass() {
     return geom;
   }, []);
 
-  // INSTANCE ATTRIBUTES
+  // INSTANCE GEOMETRY
   const instancedGeometry = useMemo(() => {
+    const grassMeshes = [
+      islands.nodes.island_01_grass,
+      islands.nodes.island_02_grass,
+      islands.nodes.island_03_grass,
+    ].filter(Boolean);
+
+    if (grassMeshes.length === 0) return null;
+
+    // MERGE GEOMETRIES
+    const geometries = grassMeshes.map(m => m.geometry.clone());
+    const merged = BufferGeometryUtils.mergeGeometries(geometries);
+    merged.computeVertexNormals();
+    merged.computeBoundingBox();
+    merged.computeBoundingSphere();
+
+    // Créer un mesh temporaire pour le sampler
+    const tempMesh = new THREE.Mesh(merged);
+    tempMesh.applyMatrix4(
+      new THREE.Matrix4()
+        .compose(
+          islands.scene.position,
+          islands.scene.quaternion,
+          islands.scene.scale.clone().multiplyScalar(scale)
+        )
+    );
+
+    // SAMPLER
+    const sampler = new MeshSurfaceSampler(tempMesh).build();
+
+    // INSTANCED GEOMETRY
     const instGeom = new THREE.InstancedBufferGeometry();
     instGeom.index = baseGeometry.index;
     instGeom.attributes.position = baseGeometry.attributes.position;
@@ -52,16 +90,16 @@ export default function Grass() {
     const yaws = new Float32Array(bladeCount);
     const bends = new Float32Array(bladeCount);
 
-    for (let i = 0; i < bladeCount; i++) {
-      // random position on circle
-      const r = planeRadius * Math.sqrt(Math.random());
-      const theta = Math.random() * Math.PI * 2;
-      const x = r * Math.cos(theta);
-      const z = r * Math.sin(theta);
+    const tempPos = new THREE.Vector3();
+    const tempNorm = new THREE.Vector3();
 
-      offsets[i * 3 + 0] = x;
-      offsets[i * 3 + 1] = 0;
-      offsets[i * 3 + 2] = z;
+    for (let i = 0; i < bladeCount; i++) {
+      sampler.sample(tempPos, tempNorm);
+
+      // On applique seulement le scale, PAS la matrixWorld
+      offsets[i * 3 + 0] = tempPos.x;
+      offsets[i * 3 + 1] = tempPos.y;
+      offsets[i * 3 + 2] = tempPos.z;
 
       heights[i] = 0.8 + Math.random() * 0.6;
       yaws[i] = Math.random() * Math.PI * 2;
@@ -72,16 +110,17 @@ export default function Grass() {
     instGeom.setAttribute("instanceHeight", new THREE.InstancedBufferAttribute(heights, 1));
     instGeom.setAttribute("instanceYaw", new THREE.InstancedBufferAttribute(yaws, 1));
     instGeom.setAttribute("instanceBend", new THREE.InstancedBufferAttribute(bends, 1));
-
     instGeom.instanceCount = bladeCount;
 
     return instGeom;
-  }, [baseGeometry]);
+  }, [baseGeometry, islands, scale]);
 
   // UPDATE TIME
   useFrame((state) => {
     uniforms.iTime.value = state.clock.getElapsedTime() * 1000;
   });
+
+  if (!instancedGeometry) return null;
 
   return (
     <mesh geometry={instancedGeometry}>

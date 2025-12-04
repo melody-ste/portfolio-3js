@@ -57,9 +57,21 @@ export default function EnvScene()
     if (!environment?.scene) return;
 
     environment.scene.traverse((child) => {
-      if (child.isMesh) {
-        child.material = enviroMaterial;
+      if (!child.isMesh) return;
+
+      const mesh = child;
+
+      if (!mesh.geometry) return;
+      if (!mesh.geometry.attributes.position) return;
+
+      // check UV obligatoire si tu utilises map / normalMap
+      if (!mesh.geometry.attributes.uv) {
+        console.warn("Mesh sans UV ignoré :", mesh.name);
+        return;
       }
+
+      mesh.material = enviroMaterial;
+      mesh.material.needsUpdate = true;
     });
   }, [environment]);
 
@@ -98,6 +110,6 @@ export default function EnvScene()
     <primitive object={ environment.scene }  scale={60}/>
     <primitive object={ islands.scene }  scale={60} />
     <primitive object={ vines.scene }  scale={60} />
-    {/* <Grass /> */}
+    <Grass islands={islands} scale={60} />
   </>
 }
