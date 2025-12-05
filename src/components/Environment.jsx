@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Environment, useGLTF } from '@react-three/drei';
 import { useControls } from "leva";
 import { useFrame } from '@react-three/fiber'
@@ -40,7 +40,7 @@ const vinesMaterial = new THREE.MeshStandardMaterial({
   normalScale: new THREE.Vector2(0.4, 0.4)
 });
 
-export default function EnvScene()
+export default function EnvScene({ onPortalsReady })
 {
   const environment = useGLTF('/enviro.glb');
   const islands = useGLTF('/islands.glb');
@@ -49,6 +49,8 @@ export default function EnvScene()
     ${perlinNoise}
     ${portalsFragment}
     `;
+
+  const portalsRef = useMemo(() => ({}), []);
 
   // -- Leva panel -- 
   const { roughness } = useControls("Material", {
@@ -76,7 +78,6 @@ export default function EnvScene()
       if (!mesh.geometry) return;
       if (!mesh.geometry.attributes.position) return;
 
-      // check UV obligatoire si tu utilises map / normalMap
       if (!mesh.geometry.attributes.uv) {
         console.warn("Mesh sans UV ignoré :", mesh.name);
         return;
@@ -117,6 +118,7 @@ export default function EnvScene()
 
       if (isPortal) {
         // --- PORTAL SHADER MATERIAL ---
+        portalsRef[mesh.name] = mesh;
         mesh.material?.dispose();
 
         mesh.material = new THREE.ShaderMaterial({
@@ -140,6 +142,11 @@ export default function EnvScene()
         mesh.material.needsUpdate = true;
       }
     });
+
+    if (onPortalsReady) {
+      onPortalsReady(portalsRef);
+    }
+
   }, [vines]);
 
   useFrame((state) => {
