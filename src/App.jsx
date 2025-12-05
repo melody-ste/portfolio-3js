@@ -8,10 +8,12 @@ import Footer from './components/Footer';
 import Experience from './components/Experience.jsx'
 import Interface from './components/Interface.jsx'
 import MouseDragLook from './components/MouseDragLook.jsx'
+import Resume from "./components/Resume";
 
 function App() {
 
   const [headerVisible, setHeaderVisible] = useState(true)
+  const [showCard, setShowCard] = useState(false)
 
   return (
     <>
@@ -32,10 +34,22 @@ function App() {
         }}
         >
           <MouseDragLook />
-          <Experience headerVisible={headerVisible} setHeaderVisible={setHeaderVisible} />
+          <Experience headerVisible={headerVisible} setHeaderVisible={setHeaderVisible} showCard={showCard} setShowCard={setShowCard} />
         </Canvas>
 
         <Interface headerVisible={headerVisible} />
+
+        {showCard && (
+          <div className="resume-container-wrapper">
+            <div className="resume-container">
+              <div className="resume-card">
+                <button className="resume-close" onClick={() => setShowCard(false)}>✕</button>
+                <Resume />
+              </div>
+            </div>
+          </div>
+        )}
+        
         <Footer />
       </KeyboardControls>
     </>

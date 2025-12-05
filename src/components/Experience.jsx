@@ -4,10 +4,9 @@ import { useKeyboardControls, Html} from "@react-three/drei"
 import { useRef, useState } from "react"
 
 import EnvScene from './Environment.jsx';
-import Resume from "./Resume";
 import '../styles/resume.css';
 
-export default function Experience({ headerVisible, setHeaderVisible })
+export default function Experience({ headerVisible, setHeaderVisible, showCard, setShowCard })
 {
   const camera = useThree((state) => state.camera)
   const forward = useKeyboardControls((state) => state.forward)
@@ -21,7 +20,6 @@ export default function Experience({ headerVisible, setHeaderVisible })
   const [portals, setPortals] = useState(null);
 
   const [showPortalButton, setShowPortalButton] = useState(false);
-  const [showCard, setShowCard] = useState(false);
 
   // TELEPORT SYSTEM
   const cooldown = useRef(0);
@@ -141,17 +139,6 @@ export default function Experience({ headerVisible, setHeaderVisible })
         <button onClick={() => setShowCard(true)} className="open-button" >
           Open resume
         </button>
-      </Html>
-    )}
-
-    {showCard && (
-      <Html fullscreen>
-        <div className="resume-container">
-          <div className="resume-card">
-            <button className="resume-close" onClick={() => setShowCard(false)}>✕</button>
-            <Resume />
-          </div>
-        </div>
       </Html>
     )}
   
