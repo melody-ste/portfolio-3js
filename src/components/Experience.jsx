@@ -5,6 +5,7 @@ import { useRef, useState } from "react"
 
 import EnvScene from './Environment.jsx';
 import Resume from "./Resume";
+import '../styles/resume.css';
 
 export default function Experience({ headerVisible, setHeaderVisible })
 {
@@ -129,53 +130,25 @@ export default function Experience({ headerVisible, setHeaderVisible })
   }
 
   return <>
-    <EnvScene onPortalsReady={(p) => {
-      console.log("PORTALS REÇUS :", p);
-      setPortals(p);
-    }}/>
+    <EnvScene onPortalsReady={setPortals}/>
 
     {showPortalButton && !showCard && portals?.portal_03 && (
       <Html
         position={buttonPosition}
         center
         distanceFactor={8}
-        style={{ pointerEvents: 'auto', zIndex: 10 }}
       >
-        <button onClick={() => setShowCard(true)} >
-          Ouvrir le résumé
+        <button onClick={() => setShowCard(true)} className="open-button" >
+          Open resume
         </button>
       </Html>
     )}
 
     {showCard && (
-      <Html fullscreen style={{ pointerEvents: 'auto', zIndex: 100 }}>
-        <div style={{
-          width: '100%',
-          height: '100%',
-          background: 'rgba(0,0,0,0.8)',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-          <div style={{
-            background: '#fff',
-            padding: '40px',
-            borderRadius: '10px',
-            maxWidth: '800px',
-            width: '90%',
-            maxHeight: '90%',
-            overflowY: 'auto',
-            position: 'relative'
-          }}>
-            <button
-              onClick={() => setShowCard(false)}
-              style={{
-                position: 'absolute',
-                top: 10,
-                right: 10,
-                fontSize: 20,
-              }}
-            >✕</button>
+      <Html fullscreen>
+        <div className="resume-container">
+          <div className="resume-card">
+            <button className="resume-close" onClick={() => setShowCard(false)}>✕</button>
             <Resume />
           </div>
         </div>

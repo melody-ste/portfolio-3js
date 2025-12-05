@@ -1,0 +1,46 @@
+.open-button {
+  color: var(--color-text);
+  background-color: var(--color-background);
+  border: 1px solid var(--color-text);
+  border-radius: 8rem;
+  font-family: var(--font-primary);
+  font-size: 3rem;
+  padding: 2rem 5rem;
+  cursor: pointer;
+
+  box-shadow:
+    0 0 12px rgba(var(--color-text-rgb), 0.6),
+    0 0 24px rgba(var(--color-text-rgb), 0.4);
+}
+
+.resume-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.resume-card {
+  background: var(--color-background);
+  padding: 40px;
+  border-radius: 10px;
+  max-width: 1000px;
+  width: 90%;
+  max-height: 90%;
+  overflow-y: auto;
+  position: relative;
+}
+
+.resume-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--color-text);
+  background-color: var(--color-background);
+  border: 1px solid var(--color-text);
+  padding: 0.5rem 0.8rem;
+  border-radius: 5rem;
+}

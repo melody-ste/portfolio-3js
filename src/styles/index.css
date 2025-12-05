@@ -3,6 +3,7 @@
   --color-secondary: #9397fb;
   --color-background: #0b0722;
   --color-text: #f2d9f9;
+  --color-text-rgb: 242, 217, 249;
 
   --font-primary: 'Satoshi', sans-serif;
 
@@ -16,11 +17,11 @@ html,
 body,
 #root
 {
-  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
 body {
