@@ -173,6 +173,7 @@ export default function EnvScene({ onPortalsReady })
     <primitive object={ environment.scene }  scale={60}/>
     <primitive object={ islands.scene }  scale={60} />
     <primitive object={ vines.scene }  scale={60} />
+
     <Grass/>
   </>
 }

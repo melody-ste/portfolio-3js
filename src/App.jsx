@@ -2,6 +2,7 @@ import './styles/App.css';
 import { Canvas } from '@react-three/fiber';
 import { KeyboardControls} from '@react-three/drei'
 import { useState } from "react"
+import * as THREE from "three"
 
 import Footer from './components/Footer';
 import Experience from './components/Experience.jsx'
@@ -28,7 +29,8 @@ function App() {
           fov: 45,
           near: 0.1,
           far: 200
-        }}>
+        }}
+        >
           <MouseDragLook />
           <Experience headerVisible={headerVisible} setHeaderVisible={setHeaderVisible} />
         </Canvas>

@@ -1,8 +1,10 @@
 import * as THREE from "three"
 import { useFrame, useThree } from "@react-three/fiber"
-import { useKeyboardControls } from "@react-three/drei"
+import { useKeyboardControls, Html} from "@react-three/drei"
 import { useRef, useState } from "react"
+
 import EnvScene from './Environment.jsx';
+import Resume from "./Resume";
 
 export default function Experience({ headerVisible, setHeaderVisible })
 {
@@ -16,6 +18,9 @@ export default function Experience({ headerVisible, setHeaderVisible })
 
   // portals data coming from EnvScene
   const [portals, setPortals] = useState(null);
+
+  const [showPortalButton, setShowPortalButton] = useState(false);
+  const [showCard, setShowCard] = useState(false);
 
   // TELEPORT SYSTEM
   const cooldown = useRef(0);
@@ -50,6 +55,17 @@ export default function Experience({ headerVisible, setHeaderVisible })
 
     if (!portals) return;
 
+    // --- detect portal 03 proximity ---
+    const portal03 = portals.portal_03;
+    if (portal03) {
+      const portalPos = new THREE.Vector3();
+      portal03.getWorldPosition(portalPos);
+
+      const showRadius = 20;
+      setShowPortalButton(camera.position.distanceTo(portalPos) < showRadius);
+    }
+
+    // --- teleportation ---
     cooldown.current -= delta;
     if (cooldown.current > 0) return;
 
@@ -100,11 +116,71 @@ export default function Experience({ headerVisible, setHeaderVisible })
     }
   });
 
+  let buttonPosition = new THREE.Vector3(0, 0, 0)
+  if (showPortalButton && portals?.portal_03) {
+    const pos = new THREE.Vector3()
+    portals.portal_03.getWorldPosition(pos)
+
+    const offset = new THREE.Vector3(-5, -12, 5 )
+    offset.applyQuaternion(portals.portal_03.quaternion)
+    pos.add(offset)
+
+    buttonPosition = pos
+  }
 
   return <>
     <EnvScene onPortalsReady={(p) => {
       console.log("PORTALS REÇUS :", p);
       setPortals(p);
     }}/>
+
+    {showPortalButton && !showCard && portals?.portal_03 && (
+      <Html
+        position={buttonPosition}
+        center
+        distanceFactor={8}
+        style={{ pointerEvents: 'auto', zIndex: 10 }}
+      >
+        <button onClick={() => setShowCard(true)} >
+          Ouvrir le résumé
+        </button>
+      </Html>
+    )}
+
+    {showCard && (
+      <Html fullscreen style={{ pointerEvents: 'auto', zIndex: 100 }}>
+        <div style={{
+          width: '100%',
+          height: '100%',
+          background: 'rgba(0,0,0,0.8)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+          <div style={{
+            background: '#fff',
+            padding: '40px',
+            borderRadius: '10px',
+            maxWidth: '800px',
+            width: '90%',
+            maxHeight: '90%',
+            overflowY: 'auto',
+            position: 'relative'
+          }}>
+            <button
+              onClick={() => setShowCard(false)}
+              style={{
+                position: 'absolute',
+                top: 10,
+                right: 10,
+                fontSize: 20,
+              }}
+            >✕</button>
+            <Resume />
+          </div>
+        </div>
+      </Html>
+    )}
+  
   </>
 }
