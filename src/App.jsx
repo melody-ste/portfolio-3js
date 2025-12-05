@@ -1,11 +1,12 @@
 import './styles/App.css';
 import { Canvas } from '@react-three/fiber';
-import { KeyboardControls } from '@react-three/drei'
+import { KeyboardControls} from '@react-three/drei'
 import { useState } from "react"
 
 import Footer from './components/Footer';
 import Experience from './components/Experience.jsx'
 import Interface from './components/Interface.jsx'
+import MouseDragLook from './components/MouseDragLook.jsx'
 
 function App() {
 
@@ -19,16 +20,16 @@ function App() {
         { name: 'backward', keys: [ 'ArrowDown', 'KeyS' ] },
         { name: 'leftward', keys: [ 'ArrowLeft', 'KeyA' ] },
         { name: 'rightward', keys: [ 'ArrowRight', 'KeyD' ] },
-        { name: 'jump', keys: [ 'Space' ] },
       ] }>
         <Canvas
           camera={{
-          position: [-4, 2, 17],
+          position: [-4, 2, 15],
           rotation: [0, 0, 0],
           fov: 45,
           near: 0.1,
           far: 200
         }}>
+          <MouseDragLook />
           <Experience headerVisible={headerVisible} setHeaderVisible={setHeaderVisible} />
         </Canvas>
 

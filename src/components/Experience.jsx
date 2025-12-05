@@ -90,6 +90,7 @@ export default function Experience({ headerVisible, setHeaderVisible })
           targetPos.add(offset);
 
           camera.position.copy(targetPos);
+          camera.position.y += 2;
           cooldown.current = 0.6;
 
           console.log("Téléporté vers", targetName);
