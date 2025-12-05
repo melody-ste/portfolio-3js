@@ -80,21 +80,22 @@ export default function Experience({ headerVisible, setHeaderVisible })
         const targetName = link[name];
         const targetPortal = portals[targetName];
 
-        if (targetPortal) {
+        // --- Exit position ---
+        const targetPos = new THREE.Vector3();
+        targetPortal.getWorldPosition(targetPos);
 
-          const targetPos = new THREE.Vector3();
-          const offset = new THREE.Vector3(0, 0, 1);
+        const exitDir = new THREE.Vector3(0, -1, 0)
+          .applyQuaternion(targetPortal.quaternion)
+          .normalize();
 
-          targetPortal.getWorldPosition(targetPos);
-          offset.applyQuaternion(targetPortal.quaternion);
-          targetPos.add(offset);
+        targetPos.add(exitDir);
 
-          camera.position.copy(targetPos);
-          camera.position.y += 2;
-          cooldown.current = 0.6;
+        targetPos.y += 2;
+        camera.position.copy(targetPos);
 
-          console.log("Téléporté vers", targetName);
-        }
+        const lookAtTarget = targetPos.clone().add(exitDir);
+        camera.lookAt(lookAtTarget);
+        cooldown.current = 0.6;
       }
     }
   });
