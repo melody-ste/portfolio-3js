@@ -52,9 +52,8 @@ nav ul {
 
 .card {
   background: var(--color-bg-transparent);
-  padding: 1rem 4rem;
-  margin: 2rem 0.5rem;
-  width: 30vw;
+  padding: 0.7rem 2.5rem;
+  margin: 1.5rem 0.5rem;
   border-radius: 10px;
   position: relative;
   border: 1px solid var(--color-text);

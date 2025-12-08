@@ -3,9 +3,9 @@ import { Icon } from "@iconify/react";
 const Resume = () => {
   return (
     <div>
-      <div>
+      <div className="resume-wrapper">
         
-        <div>
+        <div className="left-column">
           <div className="card">
             <h1>Mélody Stephan</h1>
             <h2 className="lead">Fullstack Web Developer & 3D Generalist</h2>
@@ -24,7 +24,6 @@ const Resume = () => {
                 <Icon icon="simple-icons:artstation" width="25" />
                 <a href="https://github.com/melody-ste">Mélody Stephan</a>
               </p>
-            
             </div>
           </div>
 
@@ -70,12 +69,12 @@ const Resume = () => {
           </div>
         </div>
 
-        <div>
+        <div className="right-column">
           <div className="card">
             <h2>Professional Experience</h2>
             <ul>
               <h3>3D Generalist</h3>
-              <p>February 2023 - February 2024</p>
+              <p className="date">February 2023 - February 2024</p>
               <ul>
                 <li>Modeling/texturing for the AR department.</li>
                 <li>Modeling, UV mapping and asset optimization for several commercials.</li>
@@ -85,7 +84,7 @@ const Resume = () => {
               </ul>
               
               <h3>3D Generalist Intern</h3>
-              <p>September 2022 - December 2022</p>
+              <p className="date">September 2022 - December 2022</p>
               <ul>
                 <li>Modeling/texturing for the AR department.</li>
                 <li>Modeling, UV mapping and asset optimization for a commercial.</li>
@@ -96,31 +95,19 @@ const Resume = () => {
 
           <div className="card">
             <h2>Education</h2>
-            <ul>
+            <div>
               <h3>Web Development Training</h3>
-              <ul>
-                <p>May 2025 - Present</p>
-                <p>The Hacking Project</p>
-              </ul>
+              <p>The Hacking Project | May 2025 - Present</p>
              
               <h3>Bachelor in 3D Animation & Video Games</h3>
-              <ul>
-                <p>2019 - 2022</p>
-                <p>Bellecour School</p>
-              </ul>
+              <p>Bellecour School | 2019 - 2022</p>
 
               <h3>Foundation Year in Applied Arts</h3>
-              <ul>
-                <p>2018 - 2019</p>
-                <p>LISAA (Higher Institute of Applied Arts)</p>
-              </ul>
+              <p>LISAA (Higher Institute of Applied Arts) | 2018 - 2019</p>
 
-              <h3>Scientific Baccalaureate ( high school diploma )</h3>
-              <ul>
-                <p>2015 - 2018</p>
-                <p>Camille Sée High School</p>
-              </ul>
-            </ul>
+              {/* <h3>Scientific Baccalaureate ( high school diploma )</h3>
+              <p>Camille Sée High School | 2015 - 2018</p> */}
+            </div>
           </div>
         </div>
       </div>

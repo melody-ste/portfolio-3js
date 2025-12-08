@@ -23,7 +23,7 @@
   background: var(--color-bg-transparent);
   padding: 1rem 3rem;
   border-radius: 10px;
-  max-height: 80vh;
+  max-height: 83vh;
   width: 80vw;
   overflow-y: auto;
   position: relative;
@@ -41,7 +41,7 @@
   cursor: pointer;
   color: var(--color-text);
   background-color: var(--color-background);
-  border: 1px solid var(--color-text);
+  border: none;
   padding: 0.4rem 0.7rem;
   border-radius: 5rem;
 }
@@ -71,5 +71,15 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
+  gap: 1.5rem;
+}
+
+.resume-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.date {
+  line-height: 0.9;
 }
