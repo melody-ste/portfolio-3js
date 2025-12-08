@@ -6,7 +6,7 @@ import { useRef, useState } from "react"
 import EnvScene from './Environment.jsx';
 import '../styles/resume.css';
 
-export default function Experience({ headerVisible, setHeaderVisible, showCard, setShowCard })
+export default function Experience({ headerVisible, setHeaderVisible, showCard, setShowCard, showCardProjects, setShowCardProjects })
 {
   const camera = useThree((state) => state.camera)
   const forward = useKeyboardControls((state) => state.forward)
@@ -20,6 +20,7 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
   const [portals, setPortals] = useState(null);
 
   const [showPortalButton, setShowPortalButton] = useState(false);
+  const [showPortal4Button, setShowPortal4Button] = useState(false);
 
   // TELEPORT SYSTEM
   const cooldown = useRef(0);
@@ -64,6 +65,17 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
       setShowPortalButton(camera.position.distanceTo(portalPos) < showRadius);
     }
 
+    // --- detect portal 04 proximity ---
+    const portal04 = portals.portal_04;
+    if (portal04) {
+      const portal4Pos = new THREE.Vector3();
+      portal04.getWorldPosition(portal4Pos);
+
+      const showRadius = 20;
+      setShowPortal4Button(camera.position.distanceTo(portal4Pos) < showRadius);
+    }
+
+
     // --- teleportation ---
     cooldown.current -= delta;
     if (cooldown.current > 0) return;
@@ -83,7 +95,7 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
       const distance = hit?.distance;
 
       if (distance !== undefined && distance < radius) {
-        console.log("Entré dans", name);
+        // console.log("Entré dans", name);
 
         const link = {
           portal_01: "portal_03",
@@ -115,6 +127,7 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
     }
   });
 
+  // BUTTON POSITION portal_03
   let buttonPosition = new THREE.Vector3(0, 0, 0)
   if (showPortalButton && portals?.portal_03) {
     const pos = new THREE.Vector3()
@@ -125,6 +138,19 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
     pos.add(offset)
 
     buttonPosition = pos
+  }
+
+   // BUTTON POSITION portal_04
+  let buttonPositionPortal4 = new THREE.Vector3(0, 0, 0)
+  if (showPortal4Button && portals?.portal_04) {
+    const pos = new THREE.Vector3()
+    portals.portal_04.getWorldPosition(pos)
+
+    const offset = new THREE.Vector3(-5, -12, 5)
+    offset.applyQuaternion(portals.portal_04.quaternion)
+    pos.add(offset)
+
+    buttonPositionPortal4 = pos
   }
 
   return <>
@@ -138,6 +164,21 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
       >
         <button onClick={() => setShowCard(true)} className="open-button" >
           Open resume
+        </button>
+      </Html>
+    )}
+
+    {showPortal4Button && !showCardProjects && portals?.portal_04 && (
+      <Html
+        position={buttonPositionPortal4}
+        center
+        distanceFactor={8}
+      >
+        <button 
+          onClick={() => setShowCardProjects(true)} 
+          className="open-button"
+        >
+          Open projects
         </button>
       </Html>
     )}
