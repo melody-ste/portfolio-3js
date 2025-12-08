@@ -6,12 +6,12 @@ const Resume = () => {
       <div>
         
         <div>
-          <div>
+          <div className="card">
             <h1>Mélody Stephan</h1>
             <h2>Fullstack Web Developer & 3D Generalist</h2>
             <p>+33 7 71 00 77 71 | Haut-Rhin, Alsace | melody_stephan@icloud.com</p>
 
-            <div> 
+            <div className="resume-links"> 
               <p>
                 <Icon icon="icomoon-free:linkedin" width="25" />
                 <a href="https://www.linkedin.com/in/m%C3%A9lody-stephan-b4a485172/">Mélody Stephan</a>
@@ -28,9 +28,9 @@ const Resume = () => {
             </div>
           </div>
 
-          <div>
+          <div className="card">
             <h2>Skills</h2>
-            <ul>
+            <div>
               <h3>Development</h3>
               <ul>
                 <li>HTML</li>
@@ -43,9 +43,9 @@ const Resume = () => {
                 <li>Git/Github</li>
                 <li>Penpot</li>
               </ul>
-              
-            </ul>
-            <ul>
+            </div>
+
+            <div>
               <h3>3D Softwares</h3>
               <ul>
                 <li>Maya</li>
@@ -56,16 +56,15 @@ const Resume = () => {
                 <li>Mari</li>
                 <li>Nuke</li>
               </ul>
-              
-            </ul>
-            <ul>
+            </div>
+
+            <div>
               <h3>Languages</h3>
               <ul>
                 <li>French (native language)</li>
                 <li>English (fluent)</li>
               </ul>
-            
-            </ul>
+            </div>
           </div>
         </div>
 
