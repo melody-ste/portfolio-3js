@@ -8,7 +8,7 @@ const Resume = () => {
         <div>
           <div className="card">
             <h1>Mélody Stephan</h1>
-            <h2>Fullstack Web Developer & 3D Generalist</h2>
+            <h2 className="lead">Fullstack Web Developer & 3D Generalist</h2>
             <p>+33 7 71 00 77 71 | Haut-Rhin, Alsace | melody_stephan@icloud.com</p>
 
             <div className="resume-links"> 
@@ -30,46 +30,48 @@ const Resume = () => {
 
           <div className="card">
             <h2>Skills</h2>
-            <div>
-              <h3>Development</h3>
-              <ul>
-                <li>HTML</li>
-                <li>CSS/Sass</li>
-                <li>Ruby/Ruby on rails</li>
-                <li>Base de données SQLite & PostgreSQL</li>
-                <li>Javascript/ReactJS</li>
-                <li>ThreeJS</li>
-                <li>Bootstrap</li>
-                <li>Git/Github</li>
-                <li>Penpot</li>
-              </ul>
-            </div>
+            <div className="grid">
+              <div>
+                <h3>Development</h3>
+                <ul>
+                  <li>HTML</li>
+                  <li>CSS/Sass</li>
+                  <li>Ruby/Ruby on rails</li>
+                  <li>Base de données SQLite & PostgreSQL</li>
+                  <li>Javascript/ReactJS</li>
+                  <li>ThreeJS</li>
+                  <li>Bootstrap</li>
+                  <li>Git/Github</li>
+                  <li>Penpot</li>
+                </ul>
+              </div>
 
-            <div>
-              <h3>3D Softwares</h3>
-              <ul>
-                <li>Maya</li>
-                <li>Arnold</li>
-                <li>ZBrush</li>
-                <li>Adobe Photoshop</li>
-                <li>Substance Painter</li>
-                <li>Mari</li>
-                <li>Nuke</li>
-              </ul>
-            </div>
+              <div>
+                <h3>3D Softwares</h3>
+                <ul>
+                  <li>Maya</li>
+                  <li>Arnold</li>
+                  <li>ZBrush</li>
+                  <li>Adobe Photoshop</li>
+                  <li>Substance Painter</li>
+                  <li>Mari</li>
+                  <li>Nuke</li>
+                </ul>
+              </div>
 
-            <div>
-              <h3>Languages</h3>
-              <ul>
-                <li>French (native language)</li>
-                <li>English (fluent)</li>
-              </ul>
+              <div>
+                <h3>Languages</h3>
+                <ul>
+                  <li>French (native language)</li>
+                  <li>English (fluent)</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
 
         <div>
-          <div>
+          <div className="card">
             <h2>Professional Experience</h2>
             <ul>
               <h3>3D Generalist</h3>
@@ -92,7 +94,7 @@ const Resume = () => {
             </ul>
           </div>
 
-          <div>
+          <div className="card">
             <h2>Education</h2>
             <ul>
               <h3>Web Development Training</h3>

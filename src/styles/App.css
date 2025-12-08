@@ -23,8 +23,42 @@ nav {
 
 nav ul {
   list-style: none;
-  padding: 0;
-  margin: 0;
   display: flex;
   gap: 1rem;
+}
+
+/*           BUTTONS           */
+
+.open-button {
+  color: var(--color-text);
+  background-color: var(--color-background);
+  border: 1px solid var(--color-text);
+  border-radius: 8rem;
+  font-family: var(--font-primary);
+  font-size: 3rem;
+  padding: 2rem 5rem;
+  cursor: pointer;
+
+  box-shadow:
+    0 0 12px rgba(var(--color-text-rgb), 0.6),
+    0 0 24px rgba(var(--color-text-rgb), 0.4);
+}
+
+.open-button:hover {
+  color: var(--color-primary);
+}
+
+/*           BUTTONS           */
+
+.card {
+  background: var(--color-bg-transparent);
+  padding: 1rem 4rem;
+  margin: 2rem 0.5rem;
+  width: 30vw;
+  border-radius: 10px;
+  position: relative;
+  border: 1px solid var(--color-text);
+  box-shadow:
+    0 0 12px rgba(var(--color-text-rgb), 0.5),
+    0 0 24px rgba(var(--color-text-rgb), 0.3);
 }

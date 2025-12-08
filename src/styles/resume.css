@@ -1,18 +1,3 @@
-.open-button {
-  color: var(--color-text);
-  background-color: var(--color-background);
-  border: 1px solid var(--color-text);
-  border-radius: 8rem;
-  font-family: var(--font-primary);
-  font-size: 3rem;
-  padding: 2rem 5rem;
-  cursor: pointer;
-
-  box-shadow:
-    0 0 12px rgba(var(--color-text-rgb), 0.6),
-    0 0 24px rgba(var(--color-text-rgb), 0.4);
-}
-
 .resume-container-wrapper {
   position: fixed !important;
   width: 100vw !important;
@@ -32,15 +17,14 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-
 }
 
 .resume-card {
   background: var(--color-bg-transparent);
-  padding: 1.5rem 3.5rem;
+  padding: 1rem 3rem;
   border-radius: 10px;
-  max-height: 75vh;
-  width: 70vw;
+  max-height: 80vh;
+  width: 80vw;
   overflow-y: auto;
   position: relative;
   border: 1px solid var(--color-text);
@@ -62,17 +46,8 @@
   border-radius: 5rem;
 }
 
-.card {
-  background: var(--color-bg-transparent);
-  padding: 1rem 4rem;
-  margin: 2rem 0.5rem;
-  width: 30vw;
-  border-radius: 10px;
-  position: relative;
-  border: 1px solid var(--color-text);
-  box-shadow:
-    0 0 12px rgba(var(--color-text-rgb), 0.5),
-    0 0 24px rgba(var(--color-text-rgb), 0.3);
+.lead {
+  color: var(--color-text);
 }
 
 .resume-links {
@@ -91,4 +66,10 @@
   align-items: flex-start;
   gap: 0.5rem;
   margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
 }
