@@ -65,7 +65,7 @@ function App() {
           <div className="resume-container-wrapper">
             <div className="resume-container">
               <div className="resume-card">
-                <button className="resume-close" onClick={() => setShowCard(false)}>✕</button>
+                <button className="resume-close" onClick={() => setShowCardProjects(false)}>✕</button>
                 <Projects />
               </div>
             </div>

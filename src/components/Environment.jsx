@@ -31,7 +31,7 @@ const enviroMaterial = new THREE.MeshStandardMaterial({ map: enviroBaseColorText
 const islandsMaterial = new THREE.MeshStandardMaterial({
   map: islandsBaseColorTexture,
   normalMap: islandsNormalTexture,
-  normalScale: new THREE.Vector2(0.4, 0.4)
+  normalScale: new THREE.Vector2(0.6, 0.6)
 });
 
 const vinesMaterial = new THREE.MeshStandardMaterial({

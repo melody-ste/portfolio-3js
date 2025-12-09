@@ -85,9 +85,13 @@ export default function Grass() {
     for (let i = 0; i < bladeCount; i++) {
       sampler.sample(tmp);
 
-      offsets[i * 3 + 0] = tmp.x;
+      const spread = 0.35;
+      const randX = (Math.random() - 0.5) * spread;
+      const randZ = (Math.random() - 0.5) * spread;
+
+      offsets[i * 3 + 0] = tmp.x + randX;
       offsets[i * 3 + 1] = tmp.y;
-      offsets[i * 3 + 2] = tmp.z;
+      offsets[i * 3 + 2] = tmp.z + randZ;
 
       heights[i] = 0.5 + Math.random() * 0.6;
       yaws[i] = Math.random() * Math.PI * 2;
