@@ -1,19 +1,28 @@
 import React, { useState, useEffect } from "react";
+import ProjectDetail from "./ProjectDetail";
 
 const Projects = () => {
 
   const [projects, setProjects] = useState([]);
+  const [selectedProject, setSelectedProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const url = "https://funny-activity-cb50ecb0b0.strapiapp.com/api/projects?populate=header";
+        const url = "https://funny-activity-cb50ecb0b0.strapiapp.com/api/projects?populate=*";
         const response = await fetch(url);
         const data = await response.json();
 
-        setProjects(data.data);
+        const list = data.data || [];
+
+        setProjects(list);
+
+        if (list.length > 0) {
+          setSelectedProject(list[0]);
+        }
+
       } catch (err) {
         console.error(err);
         setError("Unable to load projects.");
@@ -29,16 +38,20 @@ const Projects = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div>
-      <div>
-        <h1>Personal Projects</h1>
+    <div className="projects-container">
+      <div className="projects-list-column">
+        <h1>Projects</h1>
 
         {projects.length === 0 && <p>No projects available for now.</p>}
 
         <ul className="projects-list">
           {projects.map((project) => (
-            <li key={project.id} className="project-card">
-
+            <li
+              key={project.id}
+              className={`project-card ${selectedProject?.id === project.id ? "selected" : ""}`}
+              onClick={() => setSelectedProject(project)}
+              style={{ cursor: "pointer" }}
+            >
               {project.header?.url && (
                 <img
                   src={project.header.url}
@@ -52,6 +65,14 @@ const Projects = () => {
             </li>
           ))}
         </ul>
+      </div>
+
+      <div className="projects-detail-column">
+        {selectedProject ? (
+          <ProjectDetail project={selectedProject} />
+        ) : (
+          <p>Select a project.</p>
+        )}
       </div>
     </div>
   );
