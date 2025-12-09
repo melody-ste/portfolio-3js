@@ -22,6 +22,9 @@ export default function Fireflies({
 
     const geoms = []
     const tmpMat = new THREE.Matrix4()
+    const scale = 60;
+    target.scale.set(scale, scale, scale);
+
     target.updateMatrixWorld(true)
 
     target.traverse((child) => {
