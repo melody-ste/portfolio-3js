@@ -1,58 +1,133 @@
 import * as THREE from 'three'
-import { useMemo } from 'react'
+import { useMemo, useEffect, useRef} from 'react'
 import { useFrame } from '@react-three/fiber'
+import { MeshSurfaceSampler } from 'three/examples/jsm/math/MeshSurfaceSampler.js'
+import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js'
 
 import firefliesVertex from "../shaders/fireflies/vertex.glsl?raw";
 import firefliesFragment from "../shaders/fireflies/fragment.glsl?raw";
 
-export default function Fireflies({ count = 150, radius = 120 }) {
+export default function Fireflies({
+  target = null,
+  count = 70,
+  spread = 0.05,
+  outward = 0.6,
+  size = 200,
+}) {
 
-  const { positions, scales } = useMemo(() => {
+  const materialRef = useRef()
+
+  const geometry = useMemo(() => {
+    if (!target) return null
+
+    const geoms = []
+    const tmpMat = new THREE.Matrix4()
+    target.updateMatrixWorld(true)
+
+    target.traverse((child) => {
+      if (child.isMesh && child.geometry) {
+        const g = child.geometry.clone()
+        tmpMat.copy(child.matrixWorld)
+        g.applyMatrix4(tmpMat)
+
+        if (!g.attributes.normal) g.computeVertexNormals()
+        geoms.push(g)
+      }
+    })
+
+    if (geoms.length === 0) return null
+
+    const merged = BufferGeometryUtils.mergeGeometries(geoms, true)
+    if (!merged.attributes.normal) merged.computeVertexNormals()
+
+    const samplingMesh = new THREE.Mesh(merged)
+
+    const sampler = new MeshSurfaceSampler(samplingMesh).build()
+
     const positions = new Float32Array(count * 3)
     const scales = new Float32Array(count)
+    const colors = new Float32Array(count * 3)
+    const tmpPos = new THREE.Vector3()
+    const tmpNormal = new THREE.Vector3()
 
     for (let i = 0; i < count; i++) {
-      const i3 = i * 3
+      sampler.sample(tmpPos, tmpNormal)
 
-      // Random inside a big sphere
-      const r = radius
-      positions[i3 + 0] = (Math.random() - 0.5) * r
-      positions[i3 + 1] = (Math.random() * r * 0.6) 
-      positions[i3 + 2] = (Math.random() - 0.5) * r
+      const randX = (Math.random() - 0.5) * spread
+      const randZ = (Math.random() - 0.5) * spread
 
-      scales[i] = Math.random() * 1 + 0.5
+      const outwardOffset = outward * (0.8 + Math.random() * 0.8)
+
+      const finalPos = tmpPos.clone()
+      finalPos.x += randX
+      finalPos.z += randZ
+      finalPos.addScaledVector(tmpNormal, outwardOffset)
+
+      positions[i * 3 + 0] = finalPos.x
+      positions[i * 3 + 1] = finalPos.y
+      positions[i * 3 + 2] = finalPos.z
+
+      scales[i] = 0.5 + Math.random() * 1.2
+
+      const r = 0.8 + Math.random() * 0.2
+      const g = 0.3 + Math.random() * 0.1
+      const b = 1.0
+
+      colors[i * 3 + 0] = r
+      colors[i * 3 + 1] = g
+      colors[i * 3 + 2] = b
     }
 
-    return { positions, scales }
-  }, [count, radius])
+    const geom = new THREE.BufferGeometry()
+    geom.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+    geom.setAttribute('aScale', new THREE.BufferAttribute(scales, 1))
+    geom.setAttribute('aColor', new THREE.BufferAttribute(colors, 3))
 
-  const fireflyMaterial = useMemo(() => {
-    return new THREE.ShaderMaterial({
+    return geom
+  }, [target, count, spread, outward])
+
+  const material = useMemo(() => {
+    const mat = new THREE.ShaderMaterial({
       transparent: true,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
+      vertexShader: firefliesVertex,
+      fragmentShader: firefliesFragment,
       uniforms: {
-        uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
-        uSize: { value: 200 },
+        uPixelRatio: { value: Math.min(window.devicePixelRatio || 1, 2) },
+        uSize: { value: size },
         uTime: { value: 0 }
-      },
-      vertexShader: {firefliesVertex},
-      fragmentShader: {firefliesFragment}
+      }
     })
-  }, [])
+    return mat
+  }, [size])
+
+  useEffect(() => {
+    materialRef.current = material
+    return () => {
+      if (material) {
+        material.dispose()
+      }
+    }
+  }, [material])
 
   useFrame((state) => {
-    fireflyMaterial.uniforms.uTime.value = state.clock.elapsedTime
+    if (materialRef.current) {
+      materialRef.current.uniforms.uTime.value = state.clock.elapsedTime
+    }
   })
 
-  const geometry = useMemo(() => {
-    const geom = new THREE.BufferGeometry()
-    geom.setAttribute("position", new THREE.BufferAttribute(positions, 3))
-    geom.setAttribute("aScale", new THREE.BufferAttribute(scales, 1))
-    return geom
+  useEffect(() => {
+    const onResize = () => {
+      if (materialRef.current) {
+        materialRef.current.uniforms.uPixelRatio.value = Math.min(window.devicePixelRatio || 1, 2)
+      }
+    }
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
   }, [])
 
-  return (
-    <points geometry={geometry} material={fireflyMaterial} />
-  )
+  if (!geometry) return null
+
+  return <points geometry={geometry} material={material} />
 }

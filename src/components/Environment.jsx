@@ -175,7 +175,15 @@ export default function EnvScene({ onPortalsReady })
     <primitive object={ islands.scene }  scale={60} />
     <primitive object={ vines.scene }  scale={60} />
 
-    <Fireflies count={150} radius={200} />
+    {environment?.scene && (
+      <Fireflies
+        target={environment.scene}
+        count={110}
+        spread={0.05}
+        outward={0.2}
+        size={130}
+      />
+    )}
 
     <Grass/>
   </>
