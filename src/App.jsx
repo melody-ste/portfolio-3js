@@ -1,4 +1,6 @@
 import './styles/App.css';
+import './styles/resume.css';
+import './styles/projects.css';
 import { Canvas } from '@react-three/fiber';
 import { KeyboardControls} from '@react-three/drei'
 import { useState } from "react"

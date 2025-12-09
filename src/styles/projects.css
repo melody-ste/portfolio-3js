@@ -1,0 +1,35 @@
+.project-card {
+  border-radius: 8px;
+  border: 1px solid var(--color-text);
+  box-shadow:
+    0 0 12px rgba(var(--color-text-rgb), 0.5),
+    0 0 24px rgba(var(--color-text-rgb), 0.3);
+  transition: transform 0.2s;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.project-card h3{
+  padding: 0.2rem 2rem;
+}
+
+.project-card-header {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.project-card:hover {
+  transform: translateY(-3px);
+  border: 1px solid var(--color-primary);
+}
+
+.projects-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 0;
+  margin-top: 3rem;
+}

@@ -4,7 +4,6 @@ import { useKeyboardControls, Html} from "@react-three/drei"
 import { useRef, useState } from "react"
 
 import EnvScene from './Environment.jsx';
-import '../styles/resume.css';
 
 export default function Experience({ headerVisible, setHeaderVisible, showCard, setShowCard, showCardProjects, setShowCardProjects })
 {

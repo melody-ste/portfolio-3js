@@ -35,18 +35,19 @@ const Projects = () => {
 
         {projects.length === 0 && <p>No projects available for now.</p>}
 
-        <ul>
+        <ul className="projects-list">
           {projects.map((project) => (
-            <li key={project.id}>
+            <li key={project.id} className="project-card">
 
               {project.header?.url && (
                 <img
                   src={project.header.url}
                   alt={project.title}
+                  className="project-card-header"
                 />
               )}
 
-              <h2>{project.title}</h2>
+              <h3>{project.title}</h3>
 
             </li>
           ))}
