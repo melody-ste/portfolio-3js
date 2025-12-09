@@ -5,6 +5,7 @@ import { useControls } from "leva";
 import { useFrame } from '@react-three/fiber'
 
 import Grass from "./Grass";
+import Fireflies from "./Fireflies";
 import portalsVertex from "../shaders/portals/vertex.glsl?raw";
 import portalsFragment from "../shaders/portals/fragment.glsl?raw";
 import perlinNoise from '../shaders/includes/perlinNoise3d.glsl?raw';
@@ -173,6 +174,8 @@ export default function EnvScene({ onPortalsReady })
     <primitive object={ environment.scene }  scale={60}/>
     <primitive object={ islands.scene }  scale={60} />
     <primitive object={ vines.scene }  scale={60} />
+
+    <Fireflies count={150} radius={200} />
 
     <Grass/>
   </>
