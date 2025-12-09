@@ -11,7 +11,7 @@ const Projects = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const url = "https://funny-activity-cb50ecb0b0.strapiapp.com/api/projects?populate=*";
+        const url = "https://funny-activity-cb50ecb0b0.strapiapp.com/api/projects?populate=*&locale=en";
         const response = await fetch(url);
         const data = await response.json();
 

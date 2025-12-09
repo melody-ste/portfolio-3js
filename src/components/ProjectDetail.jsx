@@ -32,7 +32,7 @@ const ProjectDetail = ({ project }) => {
 
           if (mime.startsWith("video")) {
             return (
-              <video key={index} controls className="project-media">
+              <video key={project.id + "_" + index} controls className="project-media">
                 <source src={url} type={mime} />
                 Your browser does not support video playback.
               </video>
