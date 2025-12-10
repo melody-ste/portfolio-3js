@@ -28,14 +28,10 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
   const cameraDir = useRef(new THREE.Vector3()).current;
 
   useFrame((state, delta) => {
-
     const direction = new THREE.Vector3()
 
-    // forward / backward
     if (forward) direction.z -= 1
     if (backward) direction.z += 1
-
-    // left / right
     if (leftward) direction.x -= 1
     if (rightward) direction.x += 1
 
@@ -140,7 +136,7 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
     buttonPosition = pos
   }
 
-   // BUTTON POSITION portal_04
+  // BUTTON POSITION portal_04
   let buttonPositionPortal4 = new THREE.Vector3(0, 0, 0)
   if (showPortal4Button && portals?.portal_04) {
     const pos = new THREE.Vector3()
@@ -154,7 +150,7 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
   }
 
   return <>
-    <Physics debug>
+    <Physics>
       <EnvScene onPortalsReady={setPortals}/>
     </Physics>
     {showPortalButton && !showCard && portals?.portal_03 && (

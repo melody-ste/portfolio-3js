@@ -3,6 +3,7 @@ import { useEffect, useMemo } from "react";
 import { Environment, useGLTF } from '@react-three/drei';
 import { useControls } from "leva";
 import { useFrame } from '@react-three/fiber'
+import { RigidBody } from "@react-three/rapier"
 
 import Grass from "./Grass";
 import Fireflies from "./Fireflies";
@@ -163,17 +164,26 @@ export default function EnvScene({ onPortalsReady })
       }
     });
   });
-  
-  // console.log(islandsBaseColorTexture);
-  // console.log(environment.scene);
-  // console.log("CHILDREN:", environment.scene.children);
 
   return <>
     <Environment preset="sunset"></Environment>
 
-    <primitive object={ environment.scene }  scale={60}/>
+      <RigidBody 
+        type="fixed" 
+        colliders="trimesh"
+      >
+        <primitive object={ environment.scene }  scale={60}/>
+      </RigidBody>
+    
     <primitive object={ islands.scene }  scale={60} />
-    <primitive object={ vines.scene }  scale={60} />
+
+    <RigidBody 
+      type="fixed" 
+      colliders="trimesh"
+    >
+      <primitive object={ vines.scene }  scale={60} />
+    </RigidBody>
+    
 
     {environment?.scene && (
       <Fireflies
