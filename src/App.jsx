@@ -29,6 +29,7 @@ function App() {
         { name: 'rightward', keys: [ 'ArrowRight', 'KeyD' ] },
       ] }>
         <Canvas
+          tabIndex={0}
           camera={{
           rotation: [0, 0, 0],
           fov: 45,
@@ -50,10 +51,18 @@ function App() {
         <Interface headerVisible={headerVisible} />
 
         {showCard && (
-          <div className="resume-container-wrapper">
+          <div className="resume-container-wrapper" tabIndex={-1}>
             <div className="resume-container">
               <div className="resume-card">
-                <button className="resume-close" onClick={() => setShowCard(false)}>✕</button>
+                <button
+                  className="resume-close"
+                  onClick={() => {
+                    setShowCard(false)
+                    requestAnimationFrame(() => {
+                      document.body.focus()
+                    })
+                  }}
+                >✕</button>
                 <Resume />
               </div>
             </div>
@@ -61,10 +70,18 @@ function App() {
         )}
 
         {showCardProjects && (
-          <div className="resume-container-wrapper">
+          <div className="resume-container-wrapper" tabIndex={-1}>
             <div className="resume-container">
               <div className="resume-card">
-                <button className="resume-close" onClick={() => setShowCardProjects(false)}>✕</button>
+                <button
+                  className="resume-close"
+                  onClick={() => {
+                    setShowCardProjects(false)
+                    requestAnimationFrame(() => {
+                      document.body.focus()
+                    })
+                  }}
+                >✕</button>
                 <Projects />
               </div>
             </div>

@@ -8,6 +8,16 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  pointer-events: auto;
+  outline: none;
+}
+
+.resume-container-wrapper * {
+  pointer-events: auto;
+}
+
+.resume-container-wrapper:focus {
+  outline: none;
 }
 
 .resume-container {

@@ -174,6 +174,7 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
         position={buttonPosition}
         center
         distanceFactor={8}
+        pointerEvents="none"
       >
         <button onClick={() => setShowCard(true)} className="open-button" >
           Open resume
@@ -186,6 +187,7 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
         position={buttonPositionPortal4}
         center
         distanceFactor={8}
+        pointerEvents="none"
       >
         <button 
           onClick={() => setShowCardProjects(true)} 
