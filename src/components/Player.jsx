@@ -16,7 +16,7 @@ const Player = forwardRef(function Player({ position = [-4, 2, 14] }, ref) {
     >
       <mesh>
         <sphereGeometry args={[1.5, 1.5, 1.5]} />
-        <meshStandardMaterial color="red" wireframe />
+        <meshStandardMaterial color="red" transparent={true} opacity={0} />
       </mesh>
     </RigidBody>
   )

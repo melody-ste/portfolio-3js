@@ -97,13 +97,13 @@ const Resume = () => {
             <h2>Education</h2>
             <div>
               <h3>Web Development Training</h3>
-              <p>The Hacking Project | May 2025 - Present</p>
+              <p className="date">The Hacking Project | May 2025 - Present</p>
              
               <h3>Bachelor in 3D Animation & Video Games</h3>
-              <p>Bellecour School | 2019 - 2022</p>
+              <p className="date">Bellecour School | 2019 - 2022</p>
 
               <h3>Foundation Year in Applied Arts</h3>
-              <p>LISAA (Higher Institute of Applied Arts) | 2018 - 2019</p>
+              <p className="date">LISAA (Higher Institute of Applied Arts) | 2018 - 2019</p>
 
               {/* <h3>Scientific Baccalaureate ( high school diploma )</h3>
               <p>Camille Sée High School | 2015 - 2018</p> */}

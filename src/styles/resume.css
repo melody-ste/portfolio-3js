@@ -40,7 +40,7 @@
   font-size: 20px;
   cursor: pointer;
   color: var(--color-text);
-  background-color: var(--color-background);
+  background-color: (var(--color-text-rgb), 0.1);
   border: none;
   padding: 0.4rem 0.7rem;
   border-radius: 5rem;
@@ -71,7 +71,7 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
+  gap: 0.5rem;
 }
 
 .resume-wrapper {

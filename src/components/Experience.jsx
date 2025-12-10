@@ -41,6 +41,9 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
     if (leftward) impulse.x -= impulseStrength
     if (rightward) impulse.x += impulseStrength
 
+    const moving = impulse.x !== 0 || impulse.z !== 0;
+    if (moving && headerVisible) setHeaderVisible(false)
+
     const camDir = new THREE.Vector3()
     camera.getWorldDirection(camDir)
     camDir.y = 0
@@ -110,11 +113,12 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
         const targetPos = new THREE.Vector3();
         targetPortal.getWorldPosition(targetPos);
 
-        const exitDir = new THREE.Vector3(0, 0, 0)
-          .applyQuaternion(targetPortal.quaternion)
-          .normalize();
+        const exitDir = new THREE.Vector3(0, 0, -1);
+        exitDir.applyQuaternion(targetPortal.quaternion);
+        exitDir.y = 0;
+        exitDir.normalize();
 
-        targetPos.add(exitDir.multiplyScalar(1.5))
+        targetPos.addScaledVector(exitDir, 1.5);
         targetPos.y += 2;
 
         playerRef.current.setTranslation({
@@ -128,12 +132,11 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
         const currentLinvel = playerRef.current.linvel()
         playerRef.current.setLinvel({ x: 0, y: currentLinvel.y, z: 0 })
 
-        camera.lookAt(targetPos.clone().add(exitDir));
         cooldown.current = 0.6;
       }
     }
   });
-
+  
   // BUTTON POSITION portal_03
   let buttonPosition = new THREE.Vector3(0, 0, 0)
   if (showPortalButton && portals?.portal_03) {
@@ -161,7 +164,7 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
   }
 
   return <>
-    <Physics debug>
+    <Physics>
       <EnvScene onPortalsReady={setPortals}/>
       <Player ref={playerRef} />
     </Physics>
