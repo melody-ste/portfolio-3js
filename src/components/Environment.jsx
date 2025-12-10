@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { useEffect, useMemo } from "react";
 import { Environment, useGLTF } from '@react-three/drei';
 import { useControls } from "leva";
-import { useFrame } from '@react-three/fiber'
+import { useFrame} from '@react-three/fiber'
 import { RigidBody } from "@react-three/rapier"
 
 import Grass from "./Grass";
@@ -129,10 +129,11 @@ export default function EnvScene({ onPortalsReady })
           transparent: true,
           depthWrite: false,
           blending: THREE.AdditiveBlending,
+          side: THREE.DoubleSide,
           uniforms: {
             uTime: { value: 0 },
             uColorStart: { value: new THREE.Color(colorStart) },
-            uColorEnd: { value: new THREE.Color(colorEnd) }
+            uColorEnd: { value: new THREE.Color(colorEnd) },
           }
         });
 
