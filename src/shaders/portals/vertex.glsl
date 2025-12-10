@@ -1,5 +1,7 @@
+attribute float aEdgeDist;
+
+varying float vEdgeDist;
 varying vec2 vUv;
-varying vec3 vLocalPos;
 
 void main()
 {
@@ -10,5 +12,5 @@ void main()
   gl_Position = projectionPosition;
     
   vUv = uv;
-  vLocalPos = position;
+  vEdgeDist = aEdgeDist;
 }

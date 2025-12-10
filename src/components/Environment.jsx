@@ -60,8 +60,8 @@ export default function EnvScene({ onPortalsReady })
   });
 
   const { colorStart, colorEnd } = useControls("Portal Shader", {
-    colorStart: "#de87f1",
-    colorEnd: "#0b0722",
+    colorStart: "#0b0722",
+    colorEnd: "#de87f1",
   });
 
 
@@ -136,6 +136,42 @@ export default function EnvScene({ onPortalsReady })
             uColorEnd: { value: new THREE.Color(colorEnd) },
           }
         });
+
+        // calcul aEdgeDist
+        let geom = mesh.geometry;
+
+        let nonIndexed = geom.index ? geom.toNonIndexed() : geom;
+        const posAttr = nonIndexed.attributes.position;
+        const count = posAttr.count;
+
+        let cx = 0, cy = 0;
+        for (let i = 0; i < count; i++) {
+          cx += posAttr.getX(i);
+          cy += posAttr.getY(i);
+        }
+        cx /= count;
+        cy /= count;
+
+        let maxR = 0;
+        for (let i = 0; i < count; i++) {
+          const dx = posAttr.getX(i) - cx;
+          const dy = posAttr.getY(i) - cy;
+          const r = Math.hypot(dx, dy);
+          if (r > maxR) maxR = r;
+        }
+        if (maxR === 0) maxR = 1e-6;
+
+        const edge = new Float32Array(count);
+        for (let i = 0; i < count; i++) {
+          const dx = posAttr.getX(i) - cx;
+          const dy = posAttr.getY(i) - cy;
+          const r = Math.hypot(dx, dy);
+          let v = 1.0 - (r / maxR);
+          edge[i] = Math.max(0, Math.min(1, v));
+        }
+
+        nonIndexed.setAttribute("aEdgeDist", new THREE.BufferAttribute(edge, 1));
+        mesh.geometry = nonIndexed;
 
         mesh.material.needsUpdate = true;
       } else {
