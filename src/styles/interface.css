@@ -12,10 +12,16 @@
 
 header {
   margin: 5rem;
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 header h2 {
   font-size: 2.5rem;
   line-height: 0;
   font-weight: 400;
+}
+
+header.hidden {
+  opacity: 0;
+
 }

@@ -50,7 +50,7 @@
   font-size: 20px;
   cursor: pointer;
   color: var(--color-text);
-  background-color: (var(--color-text-rgb), 0.1);
+  background-color: rgba(var(--color-text-rgb), 0);
   border: none;
   padding: 0.4rem 0.7rem;
   border-radius: 5rem;
@@ -92,4 +92,25 @@
 
 .date {
   line-height: 0.9;
+}
+
+.resume-card::-webkit-scrollbar {
+  height: 1rz;
+  width: 8px;
+}
+
+.resume-card::-webkit-scrollbar-track {
+  background: var(--color-background);
+  border-radius: 4px;
+}
+
+.resume-card::-webkit-scrollbar-thumb {
+  background: rgba(var(--color-text-rgb), 0.6);
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+/* Pour Firefox */
+.resume-card {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--color-text-rgb), 0.8) var(--color-bg-transparent);
 }
