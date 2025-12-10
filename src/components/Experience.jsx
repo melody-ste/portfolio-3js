@@ -86,7 +86,7 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
     const rayOrigin = camera.position.clone().add(new THREE.Vector3(0, 0.5, 0));
     raycaster.set(rayOrigin, cameraDir);
 
-    const radius = 3;
+    const radius = 2;
 
     for (const name in portals) {
       const portal = portals[name];
@@ -110,16 +110,25 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
         const targetPos = new THREE.Vector3();
         targetPortal.getWorldPosition(targetPos);
 
-        const exitDir = new THREE.Vector3(0, 1, 0)
+        const exitDir = new THREE.Vector3(0, 0, 0)
           .applyQuaternion(targetPortal.quaternion)
           .normalize();
 
         targetPos.add(exitDir.multiplyScalar(1.5))
         targetPos.y += 2;
 
-        playerRef.current.setTranslation({ x: targetPos.x, y: targetPos.y, z: targetPos.z }, true)
+        playerRef.current.setTranslation({
+          x: targetPos.x,
+          y: targetPos.y,
+          z: targetPos.z
+        }, true)
 
-        camera.lookAt(targetPos.clone().add(exitDir))
+        playerRef.current.setTranslation(targetPos, true)
+        playerRef.current.wakeUp()
+        const currentLinvel = playerRef.current.linvel()
+        playerRef.current.setLinvel({ x: 0, y: currentLinvel.y, z: 0 })
+
+        camera.lookAt(targetPos.clone().add(exitDir));
         cooldown.current = 0.6;
       }
     }
