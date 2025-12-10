@@ -168,15 +168,20 @@ export default function EnvScene({ onPortalsReady })
   return <>
     <Environment preset="sunset"></Environment>
 
-      <RigidBody 
-        type="fixed" 
-        colliders="trimesh"
-      >
-        <primitive object={ environment.scene }  scale={60}/>
-      </RigidBody>
-    
-    <primitive object={ islands.scene }  scale={60} />
+    <RigidBody 
+      type="fixed" 
+      colliders="trimesh"
+    >
+      <primitive object={ environment.scene }  scale={60}/>
+    </RigidBody>
 
+    <RigidBody 
+      type="fixed" 
+      colliders="hull"
+    >
+      <primitive object={ islands.scene }  scale={60} />
+    </RigidBody>
+    
     <RigidBody 
       type="fixed" 
       colliders="trimesh"

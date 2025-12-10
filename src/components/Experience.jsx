@@ -5,16 +5,21 @@ import { useRef, useState } from "react"
 import { Physics } from '@react-three/rapier'
 
 import EnvScene from './Environment.jsx';
+import Player from "./Player"
 
 export default function Experience({ headerVisible, setHeaderVisible, showCard, setShowCard, showCardProjects, setShowCardProjects })
 {
-  const camera = useThree((state) => state.camera)
+
+  const { camera } = useThree()
+  const playerRef = useRef()
+  const speed = 4
+  const impulseStrength = 1;
+
   const forward = useKeyboardControls((state) => state.forward)
   const backward = useKeyboardControls((state) => state.backward)
   const leftward = useKeyboardControls((state) => state.leftward)
   const rightward = useKeyboardControls((state) => state.rightward)
 
-  const speed = 2
 
   // portals data coming from EnvScene
   const [portals, setPortals] = useState(null);
@@ -28,49 +33,48 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
   const cameraDir = useRef(new THREE.Vector3()).current;
 
   useFrame((state, delta) => {
-    const direction = new THREE.Vector3()
+    if (!playerRef.current) return
 
-    if (forward) direction.z -= 1
-    if (backward) direction.z += 1
-    if (leftward) direction.x -= 1
-    if (rightward) direction.x += 1
+    const impulse = { x: 0, y: 0, z: 0 }
+    if (forward) impulse.z -= impulseStrength
+    if (backward) impulse.z += impulseStrength
+    if (leftward) impulse.x -= impulseStrength
+    if (rightward) impulse.x += impulseStrength
 
-    const moving = direction.length() > 0
+    const camDir = new THREE.Vector3()
+    camera.getWorldDirection(camDir)
+    camDir.y = 0
+    camDir.normalize()
 
-    if (moving && headerVisible) {
-      setHeaderVisible(false)
+    const side = new THREE.Vector3()
+    side.crossVectors(camDir, new THREE.Vector3(0, 1, 0)).normalize()
+
+    const move = new THREE.Vector3()
+    move.addScaledVector(camDir, -impulse.z* speed)
+    move.addScaledVector(side, impulse.x* speed)
+
+    const currentLinvel = playerRef.current.linvel()
+    playerRef.current.setLinvel({ x: move.x, y: currentLinvel.y, z: move.z })
+
+    const p = playerRef.current.translation()
+    camera.position.lerp(new THREE.Vector3(p.x, p.y, p.z), 0.3)
+
+    if (!portals) return
+
+    // PORTALS 
+    const detectRadius = 20
+    // portal_03
+    if (portals.portal_03) {
+      const portalPos = new THREE.Vector3()
+      portals.portal_03.getWorldPosition(portalPos)
+      setShowPortalButton(camera.position.distanceTo(portalPos) < detectRadius)
     }
-
-    if (moving) {
-      setHeaderVisible(false)
-      direction.normalize()
-      direction.applyEuler(camera.rotation)
-      direction.multiplyScalar(speed * delta)
-      camera.position.add(direction)
+    // portal_04
+    if (portals.portal_04) {
+      const portalPos = new THREE.Vector3()
+      portals.portal_04.getWorldPosition(portalPos)
+      setShowPortal4Button(camera.position.distanceTo(portalPos) < detectRadius)
     }
-
-    if (!portals) return;
-
-    // --- detect portal 03 proximity ---
-    const portal03 = portals.portal_03;
-    if (portal03) {
-      const portalPos = new THREE.Vector3();
-      portal03.getWorldPosition(portalPos);
-
-      const showRadius = 20;
-      setShowPortalButton(camera.position.distanceTo(portalPos) < showRadius);
-    }
-
-    // --- detect portal 04 proximity ---
-    const portal04 = portals.portal_04;
-    if (portal04) {
-      const portal4Pos = new THREE.Vector3();
-      portal04.getWorldPosition(portal4Pos);
-
-      const showRadius = 20;
-      setShowPortal4Button(camera.position.distanceTo(portal4Pos) < showRadius);
-    }
-
 
     // --- teleportation ---
     cooldown.current -= delta;
@@ -82,7 +86,7 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
     const rayOrigin = camera.position.clone().add(new THREE.Vector3(0, 0.5, 0));
     raycaster.set(rayOrigin, cameraDir);
 
-    const radius = 1.2;
+    const radius = 3;
 
     for (const name in portals) {
       const portal = portals[name];
@@ -91,7 +95,6 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
       const distance = hit?.distance;
 
       if (distance !== undefined && distance < radius) {
-        // console.log("Entré dans", name);
 
         const link = {
           portal_01: "portal_03",
@@ -107,17 +110,16 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
         const targetPos = new THREE.Vector3();
         targetPortal.getWorldPosition(targetPos);
 
-        const exitDir = new THREE.Vector3(0, -1, 0)
+        const exitDir = new THREE.Vector3(0, 1, 0)
           .applyQuaternion(targetPortal.quaternion)
           .normalize();
 
-        targetPos.add(exitDir);
-
+        targetPos.add(exitDir.multiplyScalar(1.5))
         targetPos.y += 2;
-        camera.position.copy(targetPos);
 
-        const lookAtTarget = targetPos.clone().add(exitDir);
-        camera.lookAt(lookAtTarget);
+        playerRef.current.setTranslation({ x: targetPos.x, y: targetPos.y, z: targetPos.z }, true)
+
+        camera.lookAt(targetPos.clone().add(exitDir))
         cooldown.current = 0.6;
       }
     }
@@ -150,9 +152,11 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
   }
 
   return <>
-    <Physics>
+    <Physics debug>
       <EnvScene onPortalsReady={setPortals}/>
+      <Player ref={playerRef} />
     </Physics>
+
     {showPortalButton && !showCard && portals?.portal_03 && (
       <Html
         position={buttonPosition}
