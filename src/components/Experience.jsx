@@ -2,6 +2,7 @@ import * as THREE from "three"
 import { useFrame, useThree } from "@react-three/fiber"
 import { useKeyboardControls, Html} from "@react-three/drei"
 import { useRef, useState } from "react"
+import { Physics } from '@react-three/rapier'
 
 import EnvScene from './Environment.jsx';
 
@@ -153,8 +154,9 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
   }
 
   return <>
-    <EnvScene onPortalsReady={setPortals}/>
-
+    <Physics debug>
+      <EnvScene onPortalsReady={setPortals}/>
+    </Physics>
     {showPortalButton && !showCard && portals?.portal_03 && (
       <Html
         position={buttonPosition}
