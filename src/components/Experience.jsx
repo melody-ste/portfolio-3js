@@ -1,15 +1,14 @@
 import * as THREE from "three"
 import { useFrame, useThree } from "@react-three/fiber"
 import { useKeyboardControls, Html} from "@react-three/drei"
-import { useRef, useState } from "react"
+import { useRef, useState, useMemo  } from "react"
 import { Physics } from '@react-three/rapier'
 
 import EnvScene from './Environment.jsx';
 import Player from "./Player"
 
-export default function Experience({ headerVisible, setHeaderVisible, showCard, setShowCard, showCardProjects, setShowCardProjects })
+export default function Experience({ headerVisible, setHeaderVisible, showCard, setShowCard, showCardProjects, setShowCardProjects})
 {
-
   const { camera } = useThree()
   const playerRef = useRef()
   const speed = 4
@@ -19,7 +18,6 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
   const backward = useKeyboardControls((state) => state.backward)
   const leftward = useKeyboardControls((state) => state.leftward)
   const rightward = useKeyboardControls((state) => state.rightward)
-
 
   // portals data coming from EnvScene
   const [portals, setPortals] = useState(null);

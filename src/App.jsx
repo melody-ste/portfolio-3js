@@ -3,7 +3,7 @@ import './styles/resume.css';
 import './styles/projects.css';
 import { Canvas } from '@react-three/fiber';
 import { KeyboardControls} from '@react-three/drei'
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import * as THREE from "three"
 
 import Footer from './components/Footer';
@@ -19,8 +19,36 @@ function App() {
   const [showCard, setShowCard] = useState(false)
   const [showCardProjects, setShowCardProjects] = useState(false)
 
+  const [progress, setProgress] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    let raf;
+    const animate = () => {
+      setProgress(prev => {
+        const next = Math.min(prev + 0.015, 1);
+        if (next === 1) setIsLoaded(true);
+        return next;
+      });
+      raf = requestAnimationFrame(animate);
+    };
+    animate();
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
   return (
     <>
+      {!isLoaded && (
+        <div className="loading-screen">
+          <div className="loading-bar-bg">
+            <div
+              className="loading-bar-fill"
+              style={{ transform: `scaleX(${progress})` }}
+            />
+          </div>
+          <p className="loading-label">{Math.round(progress * 100)}%</p>
+        </div>
+      )}
       <KeyboardControls 
       map={ [
         { name: 'forward', keys: [ 'ArrowUp', 'KeyW' ] },

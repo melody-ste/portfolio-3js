@@ -5,6 +5,10 @@
   pointer-events: none;
 }
 
+.interface * {
+  pointer-events: auto;
+}
+
 .title {
   margin-top: 2rem;
   font-size: 8rem;

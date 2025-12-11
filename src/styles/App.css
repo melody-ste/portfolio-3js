@@ -65,3 +65,38 @@ button {
     0 0 12px rgba(var(--color-text-rgb), 0.5),
     0 0 24px rgba(var(--color-text-rgb), 0.3);
 }
+
+/*        LOADING BAR        */
+
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--color-background);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.loading-bar-bg {
+  width: 40%;
+  height: 8px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.loading-bar-fill {
+  height: 100%;
+  background: var(--color-primary);
+  transform-origin: left;
+  transition: transform 0.1s linear;
+}
+
+.loading-label {
+  margin-top: 10px;
+  color: var(--color-text);
+  font-size: 1.2rem;
+  font-family: var(--font-primary);
+}
