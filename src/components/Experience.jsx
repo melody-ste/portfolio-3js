@@ -3,6 +3,7 @@ import { useFrame, useThree } from "@react-three/fiber"
 import { useKeyboardControls, Html} from "@react-three/drei"
 import { useRef, useState, useMemo  } from "react"
 import { Physics } from '@react-three/rapier'
+import RAPIER from '@dimforge/rapier3d-compat'
 
 import EnvScene from './Environment.jsx';
 import Player from "./Player"
@@ -162,7 +163,7 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
   }
 
   return <>
-    <Physics>
+    <Physics gravity={[0, -9.81, 0]} rapier={RAPIER}>
       <EnvScene onPortalsReady={setPortals}/>
       <Player ref={playerRef} />
     </Physics>
