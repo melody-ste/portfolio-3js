@@ -8,6 +8,7 @@ const Player = forwardRef(function Player({ position = [-4, 2, 14] }, ref) {
       ref={ref}
       type="dynamic"
       colliders="ball"
+      canSleep={ false }
       friction={0.1}
       restitution={0}
       linearDamping={4}
