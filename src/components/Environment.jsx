@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo} from "react";
 import { Environment, useGLTF } from '@react-three/drei';
 import { useControls } from "leva";
 import { useFrame} from '@react-three/fiber'
@@ -54,17 +54,10 @@ export default function EnvScene({ onPortalsReady })
 
   const portalsRef = useMemo(() => ({}), []);
 
-  // -- Leva panel -- 
-  const { roughness } = useControls("Material", {
-    roughness: { value: 1, min: 0, max: 1, step: 0.01 },
-  });
-
-  const { colorStart, colorEnd } = useControls("Portal Shader", {
-    colorStart: "#0b0722",
-    colorEnd: "#de87f1",
-  });
-
-
+  const roughness = 1;
+  const colorStart = "#0b0722";
+  const colorEnd = "#de87f1";
+  
   useEffect(() => {
     enviroMaterial.roughness = roughness;
   }, [roughness]);
@@ -73,7 +66,10 @@ export default function EnvScene({ onPortalsReady })
     if (!environment?.scene) return;
 
     environment.scene.traverse((child) => {
-      if (!child.isMesh) return;
+      if (!child.isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = false;
+      }
 
       const mesh = child;
 
@@ -95,6 +91,8 @@ export default function EnvScene({ onPortalsReady })
 
     islands.scene.traverse(child => {
       if (child.isMesh) {
+        child.castShadow = false;
+        child.receiveShadow = true;
         child.material.dispose();
         child.material = islandsMaterial.clone();
         child.material.needsUpdate = true;
@@ -106,7 +104,10 @@ export default function EnvScene({ onPortalsReady })
     if (!vines?.scene) return;
 
     vines.scene.traverse(child => {
-      if (!child.isMesh) return;
+      if (!child.isMesh){
+        child.castShadow = true;
+        child.receiveShadow = false;
+      };
 
       const mesh = child;
 

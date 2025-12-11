@@ -14,7 +14,6 @@ import Resume from "./components/Resume";
 import Projects from "./components/Projects";
 
 function App() {
-
   const [headerVisible, setHeaderVisible] = useState(true)
   const [showCard, setShowCard] = useState(false)
   const [showCardProjects, setShowCardProjects] = useState(false)
