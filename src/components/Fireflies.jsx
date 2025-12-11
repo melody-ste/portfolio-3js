@@ -9,7 +9,7 @@ import firefliesFragment from "../shaders/fireflies/fragment.glsl?raw";
 
 export default function Fireflies({
   target = null,
-  count = 70,
+  count = 150,
   spread = 0.05,
   outward = 0.6,
   size = 200,

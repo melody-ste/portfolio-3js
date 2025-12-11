@@ -230,7 +230,7 @@ export default function EnvScene({ onPortalsReady })
     {environment?.scene && (
       <Fireflies
         target={environment.scene}
-        count={110}
+        count={150}
         spread={0.05}
         outward={0.2}
         size={130}
