@@ -127,7 +127,6 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
         }, true)
 
         playerRef.current.setTranslation(targetPos, true)
-        playerRef.current.wakeUp()
         const currentLinvel = playerRef.current.linvel()
         playerRef.current.setLinvel({ x: 0, y: currentLinvel.y, z: 0 })
 

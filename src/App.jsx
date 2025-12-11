@@ -81,15 +81,7 @@ function App() {
           <div className="resume-container-wrapper" tabIndex={-1}>
             <div className="resume-container">
               <div className="resume-card">
-                <button
-                  className="resume-close"
-                  onClick={() => {
-                    setShowCard(false)
-                    requestAnimationFrame(() => {
-                      document.body.focus()
-                    })
-                  }}
-                >✕</button>
+                <button className="resume-close" onClick={() => setShowCard(false)}>✕</button>
                 <Resume />
               </div>
             </div>
@@ -100,15 +92,7 @@ function App() {
           <div className="resume-container-wrapper" tabIndex={-1}>
             <div className="resume-container">
               <div className="resume-card">
-                <button
-                  className="resume-close"
-                  onClick={() => {
-                    setShowCardProjects(false)
-                    requestAnimationFrame(() => {
-                      document.body.focus()
-                    })
-                  }}
-                >✕</button>
+                <button className="resume-close" onClick={() => setShowCardProjects(false)}>✕</button>
                 <Projects />
               </div>
             </div>
