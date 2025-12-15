@@ -59,7 +59,10 @@ export default function Grass() {
     scaledScene.traverse(child => {
       if (child.isMesh) {
         const geom = child.geometry.clone();
-        geom.applyMatrix4(child.matrixWorld); // bake world transform
+        if (geom.attributes.uv1) {
+          geom.deleteAttribute('uv1');
+        }
+        geom.applyMatrix4(child.matrixWorld);
         geometries.push(geom);
       }
     });
