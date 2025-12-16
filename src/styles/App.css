@@ -16,9 +16,13 @@ footer ul {
 /*           NAVBAR           */
 
 nav {
+  position: fixed;
+  top: 0.5rem;
+  left: 1rem;
   padding: 1rem;
   display: flex;
   align-items: center;
+  z-index: 20;
 }
 
 nav ul {

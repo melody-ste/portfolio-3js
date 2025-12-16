@@ -1,12 +1,14 @@
 import './styles/App.css';
 import './styles/resume.css';
 import './styles/projects.css';
+import './styles/interface.css';
 import { Canvas } from '@react-three/fiber';
 import { KeyboardControls} from '@react-three/drei'
 import { useState, useEffect, useRef } from "react"
 import * as THREE from "three"
 
 import Footer from './components/Footer';
+import Navbar from './components/Navbar';
 import Experience from './components/Experience.jsx'
 import Interface from './components/Interface.jsx'
 import MouseDragLook from './components/MouseDragLook.jsx'
@@ -20,6 +22,8 @@ function App() {
 
   const [progress, setProgress] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
+
+  const [playerActions, setPlayerActions] = useState(null)
 
   useEffect(() => {
     let raf;
@@ -72,9 +76,11 @@ function App() {
             setShowCard={setShowCard} 
             showCardProjects={showCardProjects} 
             setShowCardProjects={setShowCardProjects} 
+            onPlayerReady={setPlayerActions}
           />
         </Canvas>
 
+        <Navbar actions={playerActions} />
         <Interface headerVisible={headerVisible} />
 
         {showCard && (

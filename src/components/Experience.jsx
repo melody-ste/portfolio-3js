@@ -1,14 +1,14 @@
 import * as THREE from "three"
 import { useFrame, useThree } from "@react-three/fiber"
 import { useKeyboardControls, Html} from "@react-three/drei"
-import { useRef, useState, useMemo  } from "react"
+import { useRef, useState, useEffect } from "react"
 import { Physics } from '@react-three/rapier'
 import RAPIER from '@dimforge/rapier3d-compat'
 
 import EnvScene from './Environment.jsx';
 import Player from "./Player"
 
-export default function Experience({ headerVisible, setHeaderVisible, showCard, setShowCard, showCardProjects, setShowCardProjects})
+export default function Experience({ headerVisible, setHeaderVisible, showCard, setShowCard, showCardProjects, setShowCardProjects, onPlayerReady})
 {
   const { camera } = useThree()
   const playerRef = useRef()
@@ -126,7 +126,6 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
           z: targetPos.z
         }, true)
 
-        playerRef.current.setTranslation(targetPos, true)
         const currentLinvel = playerRef.current.linvel()
         playerRef.current.setLinvel({ x: 0, y: currentLinvel.y, z: 0 })
 
@@ -161,6 +160,46 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
     buttonPositionPortal4 = pos
   }
 
+  useEffect(() => {
+    if (!playerRef.current || !portals) return
+
+    const goToStart = () => {
+      playerRef.current.setTranslation({ x: -4, y: 2, z: 14 }, true)
+      playerRef.current.setLinvel({ x: 0, y: 0, z: 0 })
+      playerRef.current.setAngvel({ x: 0, y: 0, z: 0 })
+    }
+
+    const goToPortal = (name) => {
+      const portal = portals[name]
+      if (!portal) return
+
+      const pos = new THREE.Vector3()
+      portal.getWorldPosition(pos)
+
+      const exitDir = new THREE.Vector3(0, 0, -1)
+      exitDir.applyQuaternion(portal.quaternion)
+      exitDir.y = 0
+      exitDir.normalize()
+
+      pos.addScaledVector(exitDir, 1.5)
+      pos.y += 2
+
+      playerRef.current.setTranslation(
+        { x: pos.x, y: pos.y, z: pos.z },
+        true
+      )
+      playerRef.current.setLinvel({ x: 0, y: 0, z: 0 })
+      playerRef.current.setAngvel({ x: 0, y: 0, z: 0 })
+    }
+
+    onPlayerReady?.({
+      goToStart,
+      goToPortal03: () => goToPortal("portal_03"),
+      goToPortal04: () => goToPortal("portal_04"),
+    })
+  }, [portals, onPlayerReady])
+
+
   return <>
     <Physics gravity={[0, -9.81, 0]} rapier={RAPIER}>
       <EnvScene onPortalsReady={setPortals}/>
@@ -172,7 +211,6 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
         position={buttonPosition}
         center
         distanceFactor={8}
-        pointerEvents="none"
       >
         <button onClick={() => setShowCard(true)} className="open-button" >
           Open resume
@@ -185,7 +223,6 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
         position={buttonPositionPortal4}
         center
         distanceFactor={8}
-        pointerEvents="none"
       >
         <button 
           onClick={() => setShowCardProjects(true)} 

@@ -1,6 +1,4 @@
 import { useKeyboardControls } from "@react-three/drei"
-import '../styles/interface.css';
-import Navbar from "./Navbar";
 
 export default function Interface({ headerVisible })
 {
@@ -11,8 +9,6 @@ export default function Interface({ headerVisible })
 
   return (
     <div className="interface">
-      <Navbar />
-
       <header className={headerVisible ? "" : "hidden"}>
         <h1 className="title">Mélody Stephan</h1>
         <h2>Frontend Web Developer & 3D Generalist</h2>
