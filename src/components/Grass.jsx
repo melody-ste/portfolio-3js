@@ -26,7 +26,7 @@ export default function Grass() {
     const geom = new THREE.BufferGeometry();
 
     const positions = new Float32Array([
-      -0.05, 0, 0, // bl
+      -0.02, 0, 0, // bl
       0.05, 0, 0, // br
       0.03, 0.4, 0, // tr
       -0.03, 0.4, 0, // tl
@@ -89,14 +89,14 @@ export default function Grass() {
       sampler.sample(tmp);
 
       const spread = 0.35;
-      const randX = (Math.random() - 0.5) * spread;
-      const randZ = (Math.random() - 0.5) * spread;
+      const randX = (Math.random() - 0.4) * spread;
+      const randZ = (Math.random() - 0.4) * spread;
 
       offsets[i * 3 + 0] = tmp.x + randX;
       offsets[i * 3 + 1] = tmp.y;
       offsets[i * 3 + 2] = tmp.z + randZ;
 
-      heights[i] = 0.5 + Math.random() * 0.6;
+      heights[i] = 0.5 + Math.random() * 0.4;
       yaws[i] = Math.random() * Math.PI * 2;
       bends[i] = Math.random() * Math.PI * 2;
     }
