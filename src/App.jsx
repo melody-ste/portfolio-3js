@@ -5,6 +5,7 @@ import './styles/interface.css';
 import { Canvas } from '@react-three/fiber';
 import { KeyboardControls} from '@react-three/drei'
 import { useState, useEffect, useRef } from "react"
+import { HelmetProvider } from "react-helmet-async";
 import * as THREE from "three"
 
 import Footer from './components/Footer';
@@ -41,72 +42,83 @@ function App() {
 
   return (
     <>
-      {!isLoaded && (
-        <div className="loading-screen">
-          <div className="loading-bar-bg">
-            <div
-              className="loading-bar-fill"
-              style={{ transform: `scaleX(${progress})` }}
-            />
-          </div>
-          <p className="loading-label">{Math.round(progress * 100)}%</p>
-        </div>
-      )}
-      <KeyboardControls 
-      map={ [
-        { name: 'forward', keys: [ 'ArrowUp', 'KeyW' ] },
-        { name: 'backward', keys: [ 'ArrowDown', 'KeyS' ] },
-        { name: 'leftward', keys: [ 'ArrowLeft', 'KeyA' ] },
-        { name: 'rightward', keys: [ 'ArrowRight', 'KeyD' ] },
-      ] }>
-        <Canvas
-          tabIndex={0}
-          camera={{
-          rotation: [0, 0, 0],
-          fov: 45,
-          near: 0.1,
-          far: 200
-        }}
-        >
-          <MouseDragLook />
-          <Experience
-            headerVisible={headerVisible}
-            setHeaderVisible={setHeaderVisible}
-            showCard={showCard} 
-            setShowCard={setShowCard} 
-            showCardProjects={showCardProjects} 
-            setShowCardProjects={setShowCardProjects} 
-            onPlayerReady={setPlayerActions}
+      <HelmetProvider>
+        <Helmet>
+          <title>Portfolio | Melody Stephan</title>
+          <meta
+            name="description"
+            content="Welcome to my interactive portfolio, where you can explore three floating islands and discover my skills and projects."
           />
-        </Canvas>
+          <link rel="canonical" href="https://portfolio-melody-stephan.vercel.app/" />
+        </Helmet>
 
-        <Navbar actions={playerActions} />
-        <Interface headerVisible={headerVisible} />
-
-        {showCard && (
-          <div className="resume-container-wrapper" tabIndex={-1}>
-            <div className="resume-container">
-              <div className="resume-card">
-                <button className="resume-close" onClick={() => setShowCard(false)}>✕</button>
-                <Resume />
-              </div>
+        {!isLoaded && (
+          <div className="loading-screen">
+            <div className="loading-bar-bg">
+              <div
+                className="loading-bar-fill"
+                style={{ transform: `scaleX(${progress})` }}
+              />
             </div>
+            <p className="loading-label">{Math.round(progress * 100)}%</p>
           </div>
         )}
+        <KeyboardControls 
+        map={ [
+          { name: 'forward', keys: [ 'ArrowUp', 'KeyW' ] },
+          { name: 'backward', keys: [ 'ArrowDown', 'KeyS' ] },
+          { name: 'leftward', keys: [ 'ArrowLeft', 'KeyA' ] },
+          { name: 'rightward', keys: [ 'ArrowRight', 'KeyD' ] },
+        ] }>
+          <Canvas
+            tabIndex={0}
+            camera={{
+            rotation: [0, 0, 0],
+            fov: 45,
+            near: 0.1,
+            far: 200
+          }}
+          >
+            <MouseDragLook />
+            <Experience
+              headerVisible={headerVisible}
+              setHeaderVisible={setHeaderVisible}
+              showCard={showCard} 
+              setShowCard={setShowCard} 
+              showCardProjects={showCardProjects} 
+              setShowCardProjects={setShowCardProjects} 
+              onPlayerReady={setPlayerActions}
+            />
+          </Canvas>
 
-        {showCardProjects && (
-          <div className="resume-container-wrapper" tabIndex={-1}>
-            <div className="resume-container">
-              <div className="resume-card">
-                <button className="resume-close" onClick={() => setShowCardProjects(false)}>✕</button>
-                <Projects />
+          <Navbar actions={playerActions} />
+          <Interface headerVisible={headerVisible} />
+
+          {showCard && (
+            <div className="resume-container-wrapper" tabIndex={-1}>
+              <div className="resume-container">
+                <div className="resume-card">
+                  <button className="resume-close" onClick={() => setShowCard(false)}>✕</button>
+                  <Resume />
+                </div>
               </div>
             </div>
-          </div>
-        )}
-        
-        <Footer />
-      </KeyboardControls>
+          )}
+
+          {showCardProjects && (
+            <div className="resume-container-wrapper" tabIndex={-1}>
+              <div className="resume-container">
+                <div className="resume-card">
+                  <button className="resume-close" onClick={() => setShowCardProjects(false)}>✕</button>
+                  <Projects />
+                </div>
+              </div>
+            </div>
+          )}
+          
+          <Footer />
+        </KeyboardControls>
+      </HelmetProvider>
     </>
   )
 }
