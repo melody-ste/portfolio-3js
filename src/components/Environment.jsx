@@ -16,6 +16,9 @@ const textureLoader = new THREE.TextureLoader();
 const enviroBaseColorTexture = textureLoader.load('/textures/enviro_BaseColor.png');
 enviroBaseColorTexture.flipY = false
 enviroBaseColorTexture.colorSpace = THREE.SRGBColorSpace
+const enviroEmissiveTexture = textureLoader.load('/textures/enviro_Emissive.png');
+enviroEmissiveTexture.flipY = false;
+enviroEmissiveTexture.colorSpace = THREE.SRGBColorSpace;
 
 const islandsBaseColorTexture = textureLoader.load('/textures/islands_BaseColor.png');
 islandsBaseColorTexture.flipY = false
@@ -29,7 +32,13 @@ const vinesNormalTexture = textureLoader.load('/textures/vines_Normal.png');
 vinesNormalTexture.flipY = false;
 vinesBaseColorTexture.colorSpace = THREE.SRGBColorSpace
 
-const enviroMaterial = new THREE.MeshStandardMaterial({ map: enviroBaseColorTexture })
+const enviroMaterial = new THREE.MeshStandardMaterial({ 
+  map: enviroBaseColorTexture,
+  emissiveMap: enviroEmissiveTexture,
+  emissive: new THREE.Color(0xffffff),
+  emissiveIntensity: 1.0
+})
+
 const islandsMaterial = new THREE.MeshStandardMaterial({
   map: islandsBaseColorTexture,
   normalMap: islandsNormalTexture,
