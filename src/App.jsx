@@ -5,7 +5,7 @@ import './styles/interface.css';
 import { Canvas } from '@react-three/fiber';
 import { KeyboardControls} from '@react-three/drei'
 import { useState, useEffect, useRef } from "react"
-import { HelmetProvider } from "react-helmet-async";
+import { HelmetProvider, Helmet } from "react-helmet-async";
 import * as THREE from "three"
 
 import Footer from './components/Footer';
