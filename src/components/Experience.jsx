@@ -192,7 +192,7 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
       exitDir.y = 0
       exitDir.normalize()
 
-      pos.addScaledVector(exitDir, 2)
+      pos.addScaledVector(exitDir, -8)
       pos.y += 2
 
       playerRef.current.setTranslation(
@@ -202,7 +202,15 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
       playerRef.current.setLinvel({ x: 0, y: 0, z: 0 })
       playerRef.current.setAngvel({ x: 0, y: 0, z: 0 })
 
-      resetCameraRotation()
+      const lookDir = exitDir.clone().multiplyScalar(-1)
+
+      const extraRotation = THREE.MathUtils.degToRad(30)
+      const yaw =
+        Math.atan2(lookDir.x, lookDir.z) +
+        Math.PI +
+        extraRotation
+
+      camera.rotation.set(0, yaw, 0)
     }
 
     onPlayerReady?.({
