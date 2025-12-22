@@ -61,6 +61,7 @@ export default function EnvScene({ onPortalsReady })
     ${portalsFragment}
     `;
 
+  const portals = useGLTF('/portals.glb');
   const portalsRef = useMemo(() => ({}), []);
 
   const roughness = 1;
@@ -76,7 +77,7 @@ export default function EnvScene({ onPortalsReady })
 
     environment.scene.traverse((child) => {
       if (!child.isMesh) {
-        child.castShadow = true;
+        child.castShadow = false;
         child.receiveShadow = false;
       }
 
@@ -100,8 +101,6 @@ export default function EnvScene({ onPortalsReady })
 
     islands.scene.traverse(child => {
       if (child.isMesh) {
-        child.castShadow = false;
-        child.receiveShadow = true;
         child.material.dispose();
         child.material = islandsMaterial.clone();
         child.material.needsUpdate = true;
@@ -112,40 +111,33 @@ export default function EnvScene({ onPortalsReady })
   useEffect(() => {
     if (!vines?.scene) return;
 
-    vines.scene.traverse(child => {
-      if (!child.isMesh){
-        child.castShadow = true;
-        child.receiveShadow = false;
-      };
-
-      const mesh = child;
-
-      const parentName = mesh.parent?.name || "";
-
-      const portalNames = ["portal_01", "portal_02", "portal_03", "portal_04"];
-
-      const isPortal =
-        parentName === "grp_portal" &&
-        portalNames.includes(mesh.name);
-
-      if (isPortal) {
-        // --- PORTAL SHADER MATERIAL ---
-        portalsRef[mesh.name] = mesh;
+    vines.scene.traverse(mesh => {
+      if (mesh.isMesh) {
         mesh.material?.dispose();
+        mesh.material = vinesMaterial.clone();
+        mesh.material.needsUpdate = true;
+      }
+    });
+  }, [vines]);
 
+  useEffect(() => {
+    if (!portals?.scene) return;
+
+    portals.scene.traverse(mesh => {
+      if (mesh.isMesh) {
         mesh.material = new THREE.ShaderMaterial({
+
           vertexShader: portalsVertex,
           fragmentShader: fragmentShader,
+          uniforms: { 
+            uTime: { value: 0 }, 
+            uColorStart: { value: new THREE.Color(colorStart) }, 
+            uColorEnd: { value: new THREE.Color(colorEnd) } 
+          },
           transparent: true,
-          depthWrite: false,
-          blending: THREE.AdditiveBlending,
           side: THREE.DoubleSide,
-          uniforms: {
-            uTime: { value: 0 },
-            uColorStart: { value: new THREE.Color(colorStart) },
-            uColorEnd: { value: new THREE.Color(colorEnd) },
-          }
         });
+        portalsRef[mesh.name] = mesh;
 
         // calcul aEdgeDist
         let geom = mesh.geometry;
@@ -184,33 +176,25 @@ export default function EnvScene({ onPortalsReady })
         mesh.geometry = nonIndexed;
 
         mesh.material.needsUpdate = true;
-      } else {
-        // --- vines material ---
-        mesh.material?.dispose();
-        mesh.material = vinesMaterial.clone();
-        mesh.material.needsUpdate = true;
       }
     });
-
-    if (onPortalsReady) {
-      onPortalsReady(portalsRef);
-    }
-
-  }, [vines]);
+  }, [portals]);
 
   useFrame((state) => {
-    if (!vines?.scene) return;
-
-    vines.scene.traverse((child) => {
-      if (child.isMesh && child.material.uniforms?.uTime) {
-        child.material.uniforms.uTime.value = state.clock.elapsedTime;
-
-      // Colors update
-      child.material.uniforms.uColorStart.value.set(colorStart);
-      child.material.uniforms.uColorEnd.value.set(colorEnd);
+    Object.values(portalsRef).forEach((mesh) => {
+      if (mesh.material.uniforms?.uTime) {
+        mesh.material.uniforms.uTime.value = state.clock.elapsedTime;
+        mesh.material.uniforms.uColorStart.value.set(colorStart);
+        mesh.material.uniforms.uColorEnd.value.set(colorEnd);
       }
     });
   });
+
+  useEffect(() => {
+    if (onPortalsReady && Object.keys(portalsRef).length > 0) {
+      onPortalsReady(portalsRef);
+    }
+  }, [portalsRef, onPortalsReady]);
 
   return <>
     <Environment preset="sunset"></Environment>
@@ -235,6 +219,8 @@ export default function EnvScene({ onPortalsReady })
     >
       <primitive object={ vines.scene }  scale={60} />
     </RigidBody>
+
+    <primitive object={portals.scene } scale={60}/>
     
 
     {environment?.scene && (

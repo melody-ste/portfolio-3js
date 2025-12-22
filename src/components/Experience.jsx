@@ -117,7 +117,7 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
         exitDir.y = 0;
         exitDir.normalize();
 
-        targetPos.addScaledVector(exitDir, 1.5);
+        targetPos.addScaledVector(exitDir, -2);
         targetPos.y += 2;
 
         playerRef.current.setTranslation({
@@ -192,7 +192,7 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
       exitDir.y = 0
       exitDir.normalize()
 
-      pos.addScaledVector(exitDir, 1.5)
+      pos.addScaledVector(exitDir, 2)
       pos.y += 2
 
       playerRef.current.setTranslation(
