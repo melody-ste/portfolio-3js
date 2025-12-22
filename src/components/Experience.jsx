@@ -112,7 +112,7 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
         const targetPos = new THREE.Vector3();
         targetPortal.getWorldPosition(targetPos);
 
-        const exitDir = new THREE.Vector3(0, 0, -1);
+        const exitDir = new THREE.Vector3(0, -1, 0);
         exitDir.applyQuaternion(targetPortal.quaternion);
         exitDir.y = 0;
         exitDir.normalize();
@@ -160,6 +160,10 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
     buttonPositionPortal4 = pos
   }
 
+  const resetCameraRotation = () => {
+    camera.rotation.set(0, 0, 0)
+  }
+
   useEffect(() => {
     if (!playerRef.current || !portals) return
 
@@ -167,6 +171,8 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
       playerRef.current.setTranslation({ x: -4, y: 2, z: 14 }, true)
       playerRef.current.setLinvel({ x: 0, y: 0, z: 0 })
       playerRef.current.setAngvel({ x: 0, y: 0, z: 0 })
+
+      resetCameraRotation()
     }
 
     const goToPortal = (name) => {
@@ -190,6 +196,8 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
       )
       playerRef.current.setLinvel({ x: 0, y: 0, z: 0 })
       playerRef.current.setAngvel({ x: 0, y: 0, z: 0 })
+
+      resetCameraRotation()
     }
 
     onPlayerReady?.({

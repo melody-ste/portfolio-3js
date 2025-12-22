@@ -27,7 +27,6 @@ export default function MouseDragLook() {
 
       const sensitivity = 0.002
 
-      // 🔥 rotation horizontale uniquement
       camera.rotation.y -= dx * sensitivity
     }
 
