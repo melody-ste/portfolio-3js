@@ -7,11 +7,16 @@ import * as THREE from "three";
 
 import grassVertex from "../shaders/grass/vertex.glsl?raw";
 import grassFragment from "../shaders/grass/fragment.glsl?raw";
+import perlinNoise from '../shaders/includes/perlinNoise3d.glsl?raw';
 
 export default function Grass() {
 
   const bladeCount = 500000;
   const ground = useGLTF('/grass.glb');
+  const fragmentShader = `
+    ${perlinNoise}
+    ${grassFragment}
+    `;
 
   // UNIFORMS
   const uniforms = useMemo(
@@ -127,7 +132,7 @@ export default function Grass() {
     <mesh geometry={instancedGeometry} frustumCulled={false}>
       <shaderMaterial
         vertexShader={grassVertex}
-        fragmentShader={grassFragment}
+        fragmentShader={fragmentShader}
         uniforms={uniforms}
         side={THREE.DoubleSide}
       />
