@@ -112,7 +112,7 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
         const targetPos = new THREE.Vector3();
         targetPortal.getWorldPosition(targetPos);
 
-        const exitDir = new THREE.Vector3(0, -1, 0);
+        const exitDir = new THREE.Vector3(0, 0, -1);
         exitDir.applyQuaternion(targetPortal.quaternion);
         exitDir.y = 0;
         exitDir.normalize();
@@ -129,7 +129,12 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
         const currentLinvel = playerRef.current.linvel()
         playerRef.current.setLinvel({ x: 0, y: currentLinvel.y, z: 0 })
 
-        cooldown.current = 0.6;
+        const lookDir = exitDir.clone().multiplyScalar(-1)
+        const extraRotation = THREE.MathUtils.degToRad(70)
+        const yaw = Math.atan2(lookDir.x, lookDir.z) + Math.PI + extraRotation
+        camera.rotation.set(0, yaw, 0)
+
+        cooldown.current = 0.8;
       }
     }
   });
