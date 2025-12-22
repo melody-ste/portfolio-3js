@@ -123,6 +123,8 @@ export default function EnvScene({ onPortalsReady })
   useEffect(() => {
     if (!portals?.scene) return;
 
+    const collectedPortals = {};
+
     portals.scene.traverse(mesh => {
       if (mesh.isMesh) {
         mesh.material = new THREE.ShaderMaterial({
@@ -137,7 +139,7 @@ export default function EnvScene({ onPortalsReady })
           transparent: true,
           side: THREE.DoubleSide,
         });
-        portalsRef[mesh.name] = mesh;
+        collectedPortals[mesh.name] = mesh;
 
         // calcul aEdgeDist
         let geom = mesh.geometry;
@@ -178,6 +180,8 @@ export default function EnvScene({ onPortalsReady })
         mesh.material.needsUpdate = true;
       }
     });
+    Object.assign(portalsRef, collectedPortals);
+    onPortalsReady?.(collectedPortals);
   }, [portals]);
 
   useFrame((state) => {
@@ -189,12 +193,6 @@ export default function EnvScene({ onPortalsReady })
       }
     });
   });
-
-  useEffect(() => {
-    if (onPortalsReady && Object.keys(portalsRef).length > 0) {
-      onPortalsReady(portalsRef);
-    }
-  }, [portalsRef, onPortalsReady]);
 
   return <>
     <Environment preset="sunset"></Environment>

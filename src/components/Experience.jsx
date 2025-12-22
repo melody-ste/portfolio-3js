@@ -117,7 +117,7 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
         exitDir.y = 0;
         exitDir.normalize();
 
-        targetPos.addScaledVector(exitDir, -2);
+        targetPos.addScaledVector(exitDir, -8);
         targetPos.y += 2;
 
         playerRef.current.setTranslation({
@@ -130,11 +130,11 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
         playerRef.current.setLinvel({ x: 0, y: currentLinvel.y, z: 0 })
 
         const lookDir = exitDir.clone().multiplyScalar(-1)
-        const extraRotation = THREE.MathUtils.degToRad(70)
+        const extraRotation = THREE.MathUtils.degToRad(30)
         const yaw = Math.atan2(lookDir.x, lookDir.z) + Math.PI + extraRotation
         camera.rotation.set(0, yaw, 0)
 
-        cooldown.current = 0.8;
+        cooldown.current = 1.2;
       }
     }
   });
@@ -145,7 +145,7 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
     const pos = new THREE.Vector3()
     portals.portal_03.getWorldPosition(pos)
 
-    const offset = new THREE.Vector3(-5, -12, 5 )
+    const offset = new THREE.Vector3(3, 2, 17)
     offset.applyQuaternion(portals.portal_03.quaternion)
     pos.add(offset)
 
@@ -158,7 +158,7 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
     const pos = new THREE.Vector3()
     portals.portal_04.getWorldPosition(pos)
 
-    const offset = new THREE.Vector3(-5, -12, 5)
+    const offset = new THREE.Vector3(2, 2, 16)
     offset.applyQuaternion(portals.portal_04.quaternion)
     pos.add(offset)
 
