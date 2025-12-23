@@ -97,12 +97,9 @@ button {
 
 
 @media (max-width: 768px) {
-
-
   .card {
     padding: 0.3rem 1rem;
   }
-
 }
 
 /*        LOADING BAR        */

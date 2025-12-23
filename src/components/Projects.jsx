@@ -41,7 +41,6 @@ const Projects = () => {
     <div className="projects-container">
       <div className="projects-list-column">
         <h1>Projects</h1>
-
         {projects.length === 0 && <p>No projects available for now.</p>}
 
         <ul className="projects-list">
