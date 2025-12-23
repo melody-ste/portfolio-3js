@@ -95,6 +95,16 @@ button {
     0 0 24px rgba(var(--color-text-rgb), 0.3);
 }
 
+
+@media (max-width: 768px) {
+
+
+  .card {
+    padding: 0.3rem 1rem;
+  }
+
+}
+
 /*        LOADING BAR        */
 
 .loading-screen {

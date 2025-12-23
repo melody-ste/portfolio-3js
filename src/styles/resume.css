@@ -114,3 +114,44 @@
   scrollbar-width: thin;
   scrollbar-color: rgba(var(--color-text-rgb), 0.8) var(--color-bg-transparent);
 }
+
+@media (max-width: 768px) {
+
+  .resume-container {
+    padding: 0.5rem;
+  }
+
+  .resume-card {
+    width: 95vw;
+    max-height: 90vh;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+
+  .resume-close {
+    top: 6px;
+    right: 6px;
+    font-size: 18px;
+    padding: 0.3rem 0.5rem;
+  }
+
+  .resume-links {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .resume-wrapper {
+    grid-template-columns: 1fr;
+    gap: 0.3rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .date {
+    line-height: 1.2;
+  }
+}

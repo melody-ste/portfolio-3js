@@ -57,3 +57,10 @@ h1, h2, h3 {
   color: var(--color-primary);
   line-height: 0.9;
 }
+
+@media (max-width: 768px) {
+
+  h1, h2, h3  {
+    line-height: 1.2;
+  }
+}
