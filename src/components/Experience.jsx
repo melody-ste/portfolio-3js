@@ -130,7 +130,7 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
         playerRef.current.setLinvel({ x: 0, y: currentLinvel.y, z: 0 })
 
         const lookDir = exitDir.clone().multiplyScalar(-1)
-        const extraRotation = THREE.MathUtils.degToRad(30)
+        const extraRotation = THREE.MathUtils.degToRad(20)
         const yaw = Math.atan2(lookDir.x, lookDir.z) + Math.PI + extraRotation
         camera.rotation.set(0, yaw, 0)
 
@@ -204,7 +204,7 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
 
       const lookDir = exitDir.clone().multiplyScalar(-1)
 
-      const extraRotation = THREE.MathUtils.degToRad(30)
+      const extraRotation = THREE.MathUtils.degToRad(20)
       const yaw =
         Math.atan2(lookDir.x, lookDir.z) +
         Math.PI +

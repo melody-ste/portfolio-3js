@@ -76,7 +76,6 @@
   }
 
   .projects-list-column {
-    width: 100%;
     max-width: 100vw;
     padding: 1.2rem 0rem;
     overflow-x: auto;
