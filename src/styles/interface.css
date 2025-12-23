@@ -29,3 +29,20 @@ header.hidden {
   opacity: 0;
 
 }
+
+@media (max-width: 768px) {
+  .title {
+    margin-top: 5rem;
+    font-size: 3.5rem;
+    line-height: 1;
+  }
+
+  header {
+    margin: 2rem;
+  }
+
+  header h2 {
+    font-size: 1.4rem;
+    line-height: 1.2;
+  }
+}
