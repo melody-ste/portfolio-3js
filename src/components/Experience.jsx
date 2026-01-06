@@ -44,7 +44,7 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
 
     // tactile
     if (touchControls) {
-      const { x, y } = touchControls.direction.current
+      const { x, y } = touchControls.direction
       impulse.x += x
       impulse.z += y
     }

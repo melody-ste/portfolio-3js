@@ -101,9 +101,18 @@ function App() {
           <Navbar actions={playerActions} />
           <Interface headerVisible={headerVisible} />
 
-          {isMobile && !showCard && !showCardProjects && (
+          {isLoaded && isMobile && !showCard && !showCardProjects && (
             <div className="joystick" {...touchControls.bind}>
-              <div className="joystick-thumb" />
+              <div className="joystick-thumb" 
+              style={{
+              transform: `translate(
+                ${touchControls.state.current.x}px,
+                ${touchControls.state.current.y}px
+              )`,
+              transition: touchControls.state.current.active
+                ? "none"
+                : "transform 0.2s ease-out"
+            }}/>
             </div>
           )}
 
