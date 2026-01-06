@@ -8,7 +8,7 @@ import RAPIER from '@dimforge/rapier3d-compat'
 import EnvScene from './Environment.jsx';
 import Player from "./Player"
 
-export default function Experience({ headerVisible, setHeaderVisible, showCard, setShowCard, showCardProjects, setShowCardProjects, onPlayerReady})
+export default function Experience({ headerVisible, setHeaderVisible, showCard, setShowCard, showCardProjects, setShowCardProjects, onPlayerReady, touchControls})
 {
   const { camera } = useThree()
   const playerRef = useRef()
@@ -35,10 +35,19 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
     if (!playerRef.current) return
 
     const impulse = { x: 0, y: 0, z: 0 }
+    
+    // keyboard
     if (forward) impulse.z -= impulseStrength
     if (backward) impulse.z += impulseStrength
     if (leftward) impulse.x -= impulseStrength
     if (rightward) impulse.x += impulseStrength
+
+    // tactile
+    if (touchControls) {
+      const { x, y } = touchControls.direction.current
+      impulse.x += x
+      impulse.z += -y
+    }
 
     const moving = impulse.x !== 0 || impulse.z !== 0;
     if (moving && headerVisible) setHeaderVisible(false)

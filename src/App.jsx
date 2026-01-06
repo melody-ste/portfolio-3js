@@ -4,7 +4,8 @@ import './styles/projects.css';
 import './styles/interface.css';
 import { Canvas } from '@react-three/fiber';
 import { KeyboardControls} from '@react-three/drei'
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef,useMemo } from "react"
+import { useTouchControls } from "./hooks/useTouchControls"
 import { HelmetProvider, Helmet } from "react-helmet-async";
 import * as THREE from "three"
 
@@ -25,6 +26,11 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const [playerActions, setPlayerActions] = useState(null)
+
+  const touchControls = useTouchControls()
+  const isMobile = useMemo(() => {
+    return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+  }, [])
 
   useEffect(() => {
     let raf;
@@ -88,11 +94,19 @@ function App() {
               showCardProjects={showCardProjects} 
               setShowCardProjects={setShowCardProjects} 
               onPlayerReady={setPlayerActions}
+              touchControls={touchControls}
             />
           </Canvas>
 
           <Navbar actions={playerActions} />
           <Interface headerVisible={headerVisible} />
+
+          <div
+            className="joystick"
+            {...touchControls.bind}
+          >
+            <div className="joystick-thumb" />
+          </div>
 
           {showCard && (
             <div className="resume-container-wrapper" tabIndex={-1}>
