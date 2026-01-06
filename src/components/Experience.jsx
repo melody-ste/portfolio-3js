@@ -46,7 +46,7 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
     if (touchControls) {
       const { x, y } = touchControls.direction.current
       impulse.x += x
-      impulse.z += -y
+      impulse.z += y
     }
 
     const moving = impulse.x !== 0 || impulse.z !== 0;

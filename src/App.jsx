@@ -101,12 +101,11 @@ function App() {
           <Navbar actions={playerActions} />
           <Interface headerVisible={headerVisible} />
 
-          <div
-            className="joystick"
-            {...touchControls.bind}
-          >
-            <div className="joystick-thumb" />
-          </div>
+          {isMobile && !showCard && !showCardProjects && (
+            <div className="joystick" {...touchControls.bind}>
+              <div className="joystick-thumb" />
+            </div>
+          )}
 
           {showCard && (
             <div className="resume-container-wrapper" tabIndex={-1}>
