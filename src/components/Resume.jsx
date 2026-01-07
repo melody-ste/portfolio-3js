@@ -8,7 +8,7 @@ const Resume = () => {
         <div className="left-column">
           <div className="card">
             <h1>Mélody Stephan</h1>
-            <h2 className="lead">Fullstack Web Developer & 3D Generalist</h2>
+            <h2 className="lead">Frontend Web Developer & 3D Generalist</h2>
             <p>+33 7 71 00 77 71 | Haut-Rhin, Alsace | melody_stephan@icloud.com</p>
 
             <div className="resume-links"> 
@@ -28,7 +28,7 @@ const Resume = () => {
           </div>
 
           <div className="card">
-            <h2>Skills</h2>
+            <h2 className="skill-title">Skills</h2>
             <div className="grid">
               <div>
                 <h3>Development</h3>
@@ -36,7 +36,7 @@ const Resume = () => {
                   <li>HTML</li>
                   <li>CSS/Sass</li>
                   <li>Ruby/Ruby on rails</li>
-                  <li>Base de données SQLite & PostgreSQL</li>
+                  <li>Database SQLite & PostgreSQL</li>
                   <li>Javascript/ReactJS</li>
                   <li>ThreeJS</li>
                   <li>Bootstrap</li>
@@ -67,6 +67,9 @@ const Resume = () => {
               </div>
             </div>
           </div>
+
+          
+
         </div>
 
         <div className="right-column">
@@ -104,7 +107,7 @@ const Resume = () => {
             <h2>Education</h2>
             <div>
               <h3>Web Development Training</h3>
-              <p className="date">The Hacking Project | May 2025 - Present</p>
+              <p className="date">The Hacking Project | May 2025 - January 2026</p>
              
               <h3>Bachelor in 3D Animation & Video Games</h3>
               <p className="date">Bellecour School | 2019 - 2022</p>
@@ -116,6 +119,7 @@ const Resume = () => {
               <p>Camille Sée High School | 2015 - 2018</p> */}
             </div>
           </div>
+
         </div>
       </div>
     </div>

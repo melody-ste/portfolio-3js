@@ -58,6 +58,7 @@
 
 .lead {
   color: var(--color-text);
+  margin: 0;
 }
 
 .resume-links {
@@ -80,8 +81,12 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 0.5rem;
+}
+
+.skill-title {
+  margin-bottom: 0;
 }
 
 .resume-wrapper {
