@@ -73,7 +73,14 @@ const Resume = () => {
           <div className="card">
             <h2>Professional Experience</h2>
             <ul>
-              <h3>3D Generalist</h3>
+              <h3>Web Developer Intern - The Hacking Project</h3>
+              <p className="date">November 2025 - January 2026</p>
+              <ul>
+                <li>Completed training in Three.js.</li>
+                <li>Designed and developed a website during the internship.</li>
+              </ul>
+
+              <h3>3D Generalist - Busterwood Studio</h3>
               <p className="date">February 2023 - February 2024</p>
               <ul>
                 <li>Modeling/texturing for the AR department.</li>
@@ -83,7 +90,7 @@ const Resume = () => {
                 <li>Compositing of some shots in Nuke and After Effects.</li>
               </ul>
               
-              <h3>3D Generalist Intern</h3>
+              <h3>3D Generalist Intern - Busterwood Studio</h3>
               <p className="date">September 2022 - December 2022</p>
               <ul>
                 <li>Modeling/texturing for the AR department.</li>
