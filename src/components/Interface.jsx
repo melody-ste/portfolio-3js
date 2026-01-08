@@ -2,11 +2,6 @@ import { useKeyboardControls } from "@react-three/drei"
 
 export default function Interface({ headerVisible })
 {
-  const forward = useKeyboardControls((state) => state.forward)
-  const backward = useKeyboardControls((state) => state.backward)
-  const leftward = useKeyboardControls((state) => state.leftward)
-  const rightward = useKeyboardControls((state) => state.rightward)
-
   return (
     <div className="interface">
       <header className={headerVisible ? "" : "hidden"}>
@@ -14,14 +9,17 @@ export default function Interface({ headerVisible })
         <h2>Frontend Web Developer & 3D Generalist</h2>
       </header>
 
-      <div className="controls">
+      <div className={`controls ${headerVisible ? "" : "hidden"}`}>
+        <p className="keyboard-hint">
+          Use the keyboard arrows to move
+        </p>
         <div className="raw">
-          <div className={`key ${forward ? "active" : ""}`}></div>
+          <div className="arrow forward "></div>
         </div>
         <div className="raw">
-          <div className={`key ${leftward ? "active" : ""}`}></div>
-          <div className={`key ${backward ? "active" : ""}`}></div>
-          <div className={`key ${rightward ? "active" : ""}`}></div>
+          <div className="arrow leftward"></div>
+          <div className="arrow backward"></div>
+          <div className="arrow rightward"></div>
         </div>
       </div>
 
