@@ -102,14 +102,19 @@ function App() {
           <Interface headerVisible={headerVisible} />
 
           {isLoaded && isMobile && !showCard && !showCardProjects && (
-            <div className="joystick" {...touchControls.bind}>
-              <div className="joystick-thumb" 
-              style={{
-                transform: `translate(${touchControls.state.x}px, ${touchControls.state.y}px)`,
-                transition: touchControls.state.active
-                  ? "none"
-                  : "transform 0.2s ease-out"
-              }}/>
+            <div className="joystick-wrapper">
+              {headerVisible && (
+                <p className="joystick-hint">Use joystick to move</p>
+              )}
+              <div className="joystick" {...touchControls.bind}>
+                <div className="joystick-thumb" 
+                style={{
+                  transform: `translate(${touchControls.state.x}px, ${touchControls.state.y}px)`,
+                  transition: touchControls.state.active
+                    ? "none"
+                    : "transform 0.2s ease-out"
+                }}/>
+              </div>
             </div>
           )}
 

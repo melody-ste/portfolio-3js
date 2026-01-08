@@ -1,7 +1,7 @@
 import React, { forwardRef } from "react"
 import { RigidBody } from "@react-three/rapier"
 
-const Player = forwardRef(function Player({ position = [-4, 2, 14] }, ref) {
+const Player = forwardRef(function Player({ position = [-4, 2, 13] }, ref) {
 
   return (
     <RigidBody
