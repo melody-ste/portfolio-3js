@@ -1,29 +1,22 @@
-import { useRef } from "react"
+import { useRef, useState } from "react"
 
-export function useTouchControls(radius = 55) {
-  const state = useRef({
-    x: 0,
-    y: 0,
-    active: false,
-    startX: 0,
-    startY: 0
-  })
+export function useTouchControls(radius = 40) {
+  const [pos, setPos] = useState({ x: 0, y: 0, active: false })
+  const center = useRef({ x: 0, y: 0 })
 
   const onTouchStart = (e) => {
-    const touch = e.touches[0]
     const rect = e.currentTarget.getBoundingClientRect()
+    center.current.x = rect.left + rect.width / 2
+    center.current.y = rect.top + rect.height / 2
 
-    state.current.centerX = rect.left + rect.width / 2
-    state.current.centerY = rect.top + rect.height / 2
-    state.current.active = true
+    setPos(p => ({ ...p, active: true }))
   }
 
   const onTouchMove = (e) => {
-    if (!state.current.active) return
-
     const touch = e.touches[0]
-    let dx = touch.clientX - state.current.centerX
-    let dy = touch.clientY - state.current.centerY
+
+    let dx = touch.clientX - center.current.x
+    let dy = touch.clientY - center.current.y
 
     const dist = Math.hypot(dx, dy)
     if (dist > radius) {
@@ -32,28 +25,23 @@ export function useTouchControls(radius = 55) {
       dy = Math.sin(angle) * radius
     }
 
-    state.current.x = dx
-    state.current.y = dy
+    setPos({ x: dx, y: dy, active: true })
   }
 
   const onTouchEnd = () => {
-    state.current.active = false
-    state.current.x = 0
-    state.current.y = 0
+    setPos({ x: 0, y: 0, active: false })
   }
 
   return {
-    state,
+    state: pos,
     bind: {
       onTouchStart,
       onTouchMove,
       onTouchEnd
     },
-    get direction() {
-      return {
-        x: state.current.x / radius,
-        y: state.current.y / radius
-      }
+    direction: {
+      x: pos.x / radius,
+      y: pos.y / radius
     }
   }
 }

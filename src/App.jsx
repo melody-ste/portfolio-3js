@@ -105,14 +105,11 @@ function App() {
             <div className="joystick" {...touchControls.bind}>
               <div className="joystick-thumb" 
               style={{
-              transform: `translate(
-                ${touchControls.state.current.x}px,
-                ${touchControls.state.current.y}px
-              )`,
-              transition: touchControls.state.current.active
-                ? "none"
-                : "transform 0.2s ease-out"
-            }}/>
+                transform: `translate(${touchControls.state.x}px, ${touchControls.state.y}px)`,
+                transition: touchControls.state.active
+                  ? "none"
+                  : "transform 0.2s ease-out"
+              }}/>
             </div>
           )}
 
