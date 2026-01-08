@@ -55,6 +55,7 @@ export default function EnvScene({ onPortalsReady })
 {
   const environment = useGLTF('/enviro.glb');
   const islands = useGLTF('/islands.glb');
+  const walls = useGLTF('/walls.glb');
   const vines = useGLTF('/vines.glb');
   const fragmentShader = `
     ${perlinNoise}
@@ -67,6 +68,13 @@ export default function EnvScene({ onPortalsReady })
   const roughness = 1;
   const colorStart = "#0b0722";
   const colorEnd = "#de87f1";
+
+  const wallsMaterial = new THREE.MeshStandardMaterial({
+    color: new THREE.Color(0xffffff),
+    transparent: true,
+    opacity: 0.0,
+    depthWrite: false,
+  });
   
   useEffect(() => {
     enviroMaterial.roughness = roughness;
@@ -194,6 +202,20 @@ export default function EnvScene({ onPortalsReady })
     });
   });
 
+  useEffect(() => {
+    if (!walls?.scene) return;
+
+    walls.scene.traverse((child) => {
+      if (!child.isMesh) return;
+
+      child.material?.dispose();
+      child.material = wallsMaterial;
+      child.material.needsUpdate = true;
+
+      child.renderOrder = 1;
+    });
+  }, [walls]);
+
   return <>
     <Environment preset="sunset"></Environment>
 
@@ -209,6 +231,13 @@ export default function EnvScene({ onPortalsReady })
       colliders="hull"
     >
       <primitive object={ islands.scene }  scale={60} />
+    </RigidBody>
+
+    <RigidBody 
+      type="fixed" 
+      colliders="trimesh"
+    >
+      <primitive object={ walls.scene }  scale={60} />
     </RigidBody>
     
     <RigidBody 
