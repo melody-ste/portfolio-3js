@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { useEffect, useMemo} from "react";
-import { Environment, useGLTF } from '@react-three/drei';
+import { Environment, useGLTF, Clouds, Cloud, Stars } from '@react-three/drei';
 import { useControls } from "leva";
 import { useFrame} from '@react-three/fiber'
 import { RigidBody } from "@react-three/rapier"
@@ -217,7 +217,9 @@ export default function EnvScene({ onPortalsReady })
   }, [walls]);
 
   return <>
-    <Environment preset="sunset"></Environment>
+    <Environment preset="sunset" ></Environment>
+
+    <Stars radius={70} depth={50} count={500} factor={4} saturation={0} fade speed={2} />
 
     <RigidBody 
       type="fixed" 
