@@ -219,7 +219,7 @@ export default function EnvScene({ onPortalsReady })
   return <>
     <Environment preset="sunset" ></Environment>
 
-    <Stars radius={70} depth={50} count={500} factor={4} saturation={0} fade speed={2} />
+    <Stars radius={60} depth={50} count={500} factor={4} saturation={0} fade speed={2} />
 
     <RigidBody 
       type="fixed" 

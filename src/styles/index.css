@@ -1,6 +1,5 @@
 :root {
   --color-primary: #de87f1;
-  --color-secondary: #9397fb;
   --color-background: #0b0722;
   --color-bg-transparent: rgba(11, 7, 34, 0.5);
   --color-text: #f2d9f9;
@@ -34,7 +33,16 @@ body,
 
 body {
   color: var(--color-text);
-  background-color: var(--color-background);
+  background: radial-gradient(
+    120% 80% at 50% 20%,
+    #251342 0%,
+    transparent 50%
+  ),
+  linear-gradient(
+    to top,
+    var(--color-background),
+    #120a3a
+  );
   font-family: var(--font-primary);
 }
 
