@@ -33,8 +33,7 @@ const Resume = () => {
               <div>
                 <h3>Development</h3>
                 <ul>
-                  <li>HTML</li>
-                  <li>CSS/Sass</li>
+                  <li>HTML - CSS/Sass</li>
                   <li>Ruby/Ruby on rails</li>
                   <li>Database SQLite & PostgreSQL</li>
                   <li>Javascript/ReactJS</li>
@@ -68,7 +67,22 @@ const Resume = () => {
             </div>
           </div>
 
-          
+          <div className="card">
+            <h2>Education</h2>
+            <div>
+              <h3>Web Development Training</h3>
+              <p className="date">The Hacking Project | May 2025 - January 2026</p>
+             
+              <h3>Bachelor in 3D Animation & Video Games</h3>
+              <p className="date">Bellecour School | 2019 - 2022</p>
+
+              <h3>Foundation Year in Applied Arts</h3>
+              <p className="date">LISAA (Higher Institute of Applied Arts) | 2018 - 2019</p>
+
+              {/* <h3>Scientific Baccalaureate ( high school diploma )</h3>
+              <p>Camille Sée High School | 2015 - 2018</p> */}
+            </div>
+          </div>
 
         </div>
 
@@ -103,22 +117,7 @@ const Resume = () => {
             </ul>
           </div>
 
-          <div className="card">
-            <h2>Education</h2>
-            <div>
-              <h3>Web Development Training</h3>
-              <p className="date">The Hacking Project | May 2025 - January 2026</p>
-             
-              <h3>Bachelor in 3D Animation & Video Games</h3>
-              <p className="date">Bellecour School | 2019 - 2022</p>
-
-              <h3>Foundation Year in Applied Arts</h3>
-              <p className="date">LISAA (Higher Institute of Applied Arts) | 2018 - 2019</p>
-
-              {/* <h3>Scientific Baccalaureate ( high school diploma )</h3>
-              <p>Camille Sée High School | 2015 - 2018</p> */}
-            </div>
-          </div>
+          
 
         </div>
       </div>

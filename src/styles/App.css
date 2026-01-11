@@ -92,7 +92,7 @@ button {
 
 .card {
   background: var(--color-bg-transparent);
-  padding: 0.5rem 2.5rem;
+  padding: 0.3rem 2.5rem;
   margin: 1rem 0.5rem;
   border-radius: 10px;
   position: relative;
