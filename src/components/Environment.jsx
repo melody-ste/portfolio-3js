@@ -1,12 +1,13 @@
 import * as THREE from 'three'
 import { useEffect, useMemo} from "react";
-import { Environment, useGLTF, Clouds, Cloud, Stars } from '@react-three/drei';
+import { Environment, useGLTF, Stars } from '@react-three/drei';
 import { useControls } from "leva";
 import { useFrame} from '@react-three/fiber'
 import { RigidBody } from "@react-three/rapier"
 
 import Grass from "./Grass";
 import Fireflies from "./Fireflies";
+import Clouds from "./Clouds";
 import portalsVertex from "../shaders/portals/vertex.glsl?raw";
 import portalsFragment from "../shaders/portals/fragment.glsl?raw";
 import perlinNoise from '../shaders/includes/perlinNoise3d.glsl?raw';
@@ -220,6 +221,8 @@ export default function EnvScene({ onPortalsReady })
     <Environment preset="sunset" ></Environment>
 
     <Stars radius={60} depth={50} count={500} factor={4} saturation={0} fade speed={2} />
+
+    <Clouds/>
 
     <RigidBody 
       type="fixed" 
