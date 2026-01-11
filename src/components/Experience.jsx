@@ -182,7 +182,7 @@ export default function Experience({ headerVisible, setHeaderVisible, showCard, 
     if (!playerRef.current || !portals) return
 
     const goToStart = () => {
-      playerRef.current.setTranslation({ x: -4, y: 2, z: 14 }, true)
+      playerRef.current.setTranslation({ x: -4, y: 2, z: 13 }, true)
       playerRef.current.setLinvel({ x: 0, y: 0, z: 0 })
       playerRef.current.setAngvel({ x: 0, y: 0, z: 0 })
 
