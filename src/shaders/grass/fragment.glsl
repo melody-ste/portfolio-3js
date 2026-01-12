@@ -6,8 +6,8 @@ void main() {
   float noise = cnoise(vWorldPos * 0.15);
   noise = noise * 0.5 + 0.5;
 
-  vec3 colorLow  = vec3(0.10, 0.07, 0.04);
-  vec3 colorHigh = vec3(0.7, 0.5, 0.8);
+  vec3 colorLow  = vec3(0.14, 0.06, 0.03);
+  vec3 colorHigh = vec3(0.87, 0.5, 0.95);
 
   vec3 baseColor = mix(colorLow, colorHigh, h);
 
