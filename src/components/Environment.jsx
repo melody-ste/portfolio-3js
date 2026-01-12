@@ -33,6 +33,13 @@ const vinesNormalTexture = textureLoader.load('/textures/vines_Normal.png');
 vinesNormalTexture.flipY = false;
 vinesBaseColorTexture.colorSpace = THREE.SRGBColorSpace
 
+const bushesBaseColorTexture = textureLoader.load('/textures/bushes_BaseColor.png');
+bushesBaseColorTexture.flipY = false
+bushesBaseColorTexture.colorSpace = THREE.SRGBColorSpace
+const bushesEmissiveTexture = textureLoader.load('/textures/bushes_Emissive.png');
+bushesEmissiveTexture.flipY = false;
+bushesEmissiveTexture.colorSpace = THREE.SRGBColorSpace;
+
 const enviroMaterial = new THREE.MeshStandardMaterial({ 
   map: enviroBaseColorTexture,
   emissiveMap: enviroEmissiveTexture,
@@ -52,12 +59,23 @@ const vinesMaterial = new THREE.MeshStandardMaterial({
   normalScale: new THREE.Vector2(0.4, 0.4)
 });
 
+const bushesMaterial = new THREE.MeshStandardMaterial({ 
+  map: bushesBaseColorTexture,
+  emissiveMap: bushesEmissiveTexture,
+  emissive: new THREE.Color(0xffffff),
+  emissiveIntensity: 1.0,
+  side: THREE.DoubleSide,
+})
+
+
 export default function EnvScene({ onPortalsReady })
 {
   const environment = useGLTF('/enviro.glb');
   const islands = useGLTF('/islands.glb');
   const walls = useGLTF('/walls.glb');
+  const bushes = useGLTF('/bushes.glb');
   const vines = useGLTF('/vines.glb');
+
   const fragmentShader = `
     ${perlinNoise}
     ${portalsFragment}
@@ -116,6 +134,18 @@ export default function EnvScene({ onPortalsReady })
       }
     });
   }, [islands]);
+
+  useEffect(() => {
+    if (!bushes?.scene) return;
+
+    bushes.scene.traverse(child => {
+      if (child.isMesh) {
+        child.material.dispose();
+        child.material = bushesMaterial.clone();
+        child.material.needsUpdate = true;
+      }
+    });
+  }, [bushes]);
 
   useEffect(() => {
     if (!vines?.scene) return;
@@ -229,6 +259,13 @@ export default function EnvScene({ onPortalsReady })
       colliders="trimesh"
     >
       <primitive object={ environment.scene }  scale={60}/>
+    </RigidBody>
+
+    <RigidBody 
+      type="fixed" 
+      colliders="trimesh"
+    >
+      <primitive object={ bushes.scene }  scale={60}/>
     </RigidBody>
 
     <RigidBody 
