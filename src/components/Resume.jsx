@@ -35,7 +35,7 @@ const Resume = () => {
                 <ul>
                   <li>HTML - CSS/Sass</li>
                   <li>Ruby/Ruby on rails</li>
-                  <li>Database SQLite & PostgreSQL</li>
+                  <li>Database SQLite/PostgreSQL</li>
                   <li>Javascript/ReactJS</li>
                   <li>ThreeJS</li>
                   <li>Bootstrap</li>
